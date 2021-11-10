@@ -1,6 +1,6 @@
 import {Company} from "./company.model";
 
-export interface Location {
+export interface LocationModel {
   id?: number;
   company: Company;
   name: string;

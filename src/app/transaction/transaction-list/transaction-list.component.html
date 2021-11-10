@@ -1,1 +1,33 @@
-<p>transaction-list works!</p>
+<div>
+  <mat-table [dataSource]="transactionList" class="mat-elevation-z8">
+    <ng-container matColumnDef="license plate">
+      <mat-header-cell *matHeaderCellDef> License Plate </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.licensePlate.licensePlate}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="wash type">
+      <mat-header-cell *matHeaderCellDef> Wash Type </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.washType.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+      <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.location.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef> Time Stamp </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.timestamp}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.imageURL}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+</div>

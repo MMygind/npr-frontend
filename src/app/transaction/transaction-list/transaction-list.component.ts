@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Transaction} from "../../shared/models/transaction.model";
+import {TransactionService} from "../../shared/services/transaction.service";
 
 @Component({
   selector: 'app-transaction-list',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransactionListComponent implements OnInit {
 
-  constructor() { }
+  transactionList: Transaction[] = [];
+  displayedColumns: string[] = ['license plate', 'wash type', 'location', 'timestamp', 'image']
+
+  constructor(private transactionService: TransactionService) { }
 
   ngOnInit(): void {
+    this.getAllTransactions();
+  }
+
+  private getAllTransactions(): void {
+    this.transactionService.getAllTransactions().subscribe(transactions => this.transactionList = transactions);
   }
 
 }
