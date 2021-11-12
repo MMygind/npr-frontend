@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Transaction} from "../../shared/models/transaction.model";
 import {TransactionService} from "../../shared/services/transaction.service";
+import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'app-transaction-list',
@@ -10,7 +11,7 @@ import {TransactionService} from "../../shared/services/transaction.service";
 export class TransactionListComponent implements OnInit {
 
   transactionList: Transaction[] = [];
-  displayedColumns: string[] = ['license plate', 'wash type', 'location', 'timestamp', 'image']
+  displayedColumns: string[] = ['license plate', 'wash type', 'location', 'timestamp', 'customer type', 'price']
 
   constructor(private transactionService: TransactionService) { }
 
