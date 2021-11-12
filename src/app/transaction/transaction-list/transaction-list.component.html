@@ -1,1 +1,38 @@
-<p>transaction-list works!</p>
+<div>
+  <mat-table [dataSource]="transactionList" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="license plate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> License Plate </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.licensePlate.licensePlate}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="wash type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Wash Type </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.washType.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Location </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.location.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Time Stamp </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.timestamp}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="customer type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Customer Type </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.licensePlate.customer.subscription.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.washType.price}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+</div>
