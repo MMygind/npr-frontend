@@ -7,5 +7,6 @@ export interface Customer {
   creationDate: Date;
   phoneNumber: string;
   subscription: Subscription;
+  licensePlates: string[];
   active: boolean;
 }
