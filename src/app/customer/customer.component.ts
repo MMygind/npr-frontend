@@ -11,7 +11,7 @@ import {DatePipe} from "@angular/common";
 export class CustomerComponent implements OnInit {
 
   customerList: Customer[] = [];
-  displayedColumns: string[] = ['name', 'email', 'phonenumber', 'creationdate', 'subscription', 'active'];
+  displayedColumns: string[] = ['name', 'email', 'phonenumber', 'creationdate', 'subscription', 'licenseplates', 'active'];
   dataSource = this.customerList;
   statusList = [
     { value: 'active', text: 'Aktiv'},

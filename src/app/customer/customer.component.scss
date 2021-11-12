@@ -14,19 +14,28 @@ h1 {
   vertical-align: middle;
   width: 100%;
   border: 1px solid #e0e0e0;
+  overflow: auto;
 }
 
 .mat-header-cell {
-  width: 20%;
+  width: 17%;
   background: #eeeeee;
   border-bottom-color: #9e9e9e;
   font-size: 15px;
 }
 
+.licensePlateList {
+  white-space:nowrap;
+  max-height:10px;
+}
+
 .mat-cell {
-  width: 20%;
+  width: 17%;
   border-bottom-color: #e0e0e0;
   font-size: 14px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mat-row:hover {
@@ -73,3 +82,13 @@ h1 {
   margin-bottom: auto;
 }
 
+.expansion-licencePlates {
+  width: 70%;
+  box-shadow: none;
+  border: 1px solid #e0e0e0;
+}
+
+.mat-expansion-panel-header {
+  height: 40px;
+  font-size: 14px;
+}
