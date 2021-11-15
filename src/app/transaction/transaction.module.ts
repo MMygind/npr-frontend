@@ -7,6 +7,7 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
 import {TransactionDetailsComponent} from "./transaction-details/transaction-details.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {MatSortModule} from "@angular/material/sort";
     CommonModule,
     TransactionRoutingModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule
   ]
 })
 export class TransactionModule { }
