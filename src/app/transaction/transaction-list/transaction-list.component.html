@@ -17,7 +17,7 @@
 
     <ng-container matColumnDef="timestamp">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Time Stamp </mat-header-cell>
-      <mat-cell *matCellDef="let transaction"> {{transaction.timestamp}} </mat-cell>
+      <mat-cell *matCellDef="let transaction"> {{getDateWithFormat(transaction.timestamp)}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="customer type">
@@ -27,7 +27,7 @@
 
     <ng-container matColumnDef="price">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
-      <mat-cell *matCellDef="let transaction"> {{transaction.washType.price}} </mat-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.washType.price}} kr. </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

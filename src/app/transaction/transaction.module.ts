@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import { TransactionRoutingModule } from './transaction-routing.module';
 import { TransactionComponent } from './transaction.component';
@@ -10,6 +10,7 @@ import {MatSortModule} from "@angular/material/sort";
 
 
 @NgModule({
+  providers: [DatePipe],
   declarations: [
     TransactionComponent,
     TransactionListComponent,
