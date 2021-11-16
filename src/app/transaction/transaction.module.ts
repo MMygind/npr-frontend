@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 
 import { TransactionRoutingModule } from './transaction-routing.module';
 import { TransactionComponent } from './transaction.component';
@@ -7,9 +7,12 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
 import {TransactionDetailsComponent} from "./transaction-details/transaction-details.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
+  providers: [DatePipe],
   declarations: [
     TransactionComponent,
     TransactionListComponent,
@@ -19,7 +22,10 @@ import {MatSortModule} from "@angular/material/sort";
     CommonModule,
     TransactionRoutingModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class TransactionModule { }
