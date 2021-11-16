@@ -8,6 +8,7 @@ import {TransactionDetailsComponent} from "./transaction-details/transaction-det
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -22,7 +23,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     TransactionRoutingModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class TransactionModule { }

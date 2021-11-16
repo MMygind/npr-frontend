@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Transaction} from "../models/transaction.model";
+import {TransactionData} from "../models/transaction.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,12 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTransactions(): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(this.transactionUrl);
+  getAllTransactions(page: number, size: number): Observable<TransactionData> {
+    let params = new HttpParams();
+
+    params = params.append('page', String(page));
+    params = params.append('limit,', String(size));
+
+    return this.http.get<TransactionData>(this.transactionUrl, {params});
   }
 }

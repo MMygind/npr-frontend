@@ -10,3 +10,20 @@ export interface Transaction {
   timestamp: Date;
   imageURL: string;
 }
+
+export interface TransactionData {
+  items: Transaction[],
+  meta: {
+    totalItems: number,
+    itemCount: number;
+    itemsPerPage: number;
+    totalPages: number;
+    currentPage: number;
+  }
+  links: {
+    first: string;
+    previous: string;
+    next: string;
+    last: string;
+  }
+}
