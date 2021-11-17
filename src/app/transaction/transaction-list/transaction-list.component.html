@@ -1,4 +1,36 @@
-<div *ngIf="dataSource">
+<div>
+
+  <h1>Transaktioner</h1>
+
+
+  <div>
+    <mat-form-field appearance="fill" class="datepicker">
+      <mat-label>Vælg et datointerval</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date">
+        <input matEndDate placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="customertype-select">
+      <mat-label>Kundetype</mat-label>
+      <mat-select>
+        <mat-option>Alle</mat-option>
+        <mat-option *ngFor="let customerType of customerTypeList" [value]="customerType.value">
+          {{customerType.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="search">
+      <input matInput type="text" placeholder="Search">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="dataSource">
   <mat-table [dataSource]="dataSource.items" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="license plate">
       <mat-header-cell *matHeaderCellDef> License Plate </mat-header-cell>
@@ -8,6 +40,11 @@
     <ng-container matColumnDef="wash type">
       <mat-header-cell *matHeaderCellDef> Wash Type </mat-header-cell>
       <mat-cell *matCellDef="let transaction"> {{transaction.washType.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.licensePlate.customer.name}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="location">
@@ -39,6 +76,7 @@
                  showFirstLastButtons
                  (page)="pageEvent = $event; onPaginateChange($event)">
   </mat-paginator>
+  </div>
 
 
 </div>

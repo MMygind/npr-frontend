@@ -12,7 +12,12 @@ import {PageEvent} from "@angular/material/paginator";
 export class TransactionListComponent implements OnInit {
 
   dataSource: TransactionData | undefined;
-  displayedColumns: string[] = ['license plate', 'wash type', 'location', 'timestamp', 'customer type', 'price']
+  displayedColumns: string[] = ['license plate', 'name', 'wash type', 'location', 'timestamp', 'customer type', 'price']
+  customerTypeList = [
+    { value: 'companyagreement', text: 'Firmaaftale'},
+    { value: 'washclub', text: 'Vaskeklub'},
+    { value: 'subscription', text: 'Abonnement'}
+  ]
 
   pageEvent: PageEvent | undefined;
 
