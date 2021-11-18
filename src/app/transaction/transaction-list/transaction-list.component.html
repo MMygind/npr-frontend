@@ -25,7 +25,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="search">
-      <input matInput type="text" placeholder="Search">
+      <input matInput type="text" [(ngModel)]="searchValue" (input)="searchForTransactions(searchValue)" placeholder="Search">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
@@ -71,11 +71,11 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <mat-paginator [length]="dataSource.meta.totalItems"
+      <mat-paginator [length]="dataSource.meta.totalItems"
                  [pageSize]="dataSource.meta.itemsPerPage"
                  showFirstLastButtons
                  (page)="pageEvent = $event; onPaginateChange($event)">
-  </mat-paginator>
+      </mat-paginator>
   </div>
 
 

@@ -3,6 +3,7 @@ import {TransactionData} from "../../shared/models/transaction.model";
 import {TransactionService} from "../../shared/services/transaction.service";
 import {DatePipe} from "@angular/common";
 import {PageEvent} from "@angular/material/paginator";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-transaction-list',
@@ -12,6 +13,7 @@ import {PageEvent} from "@angular/material/paginator";
 export class TransactionListComponent implements OnInit {
 
   dataSource: TransactionData | undefined;
+  searchValue: string = "";
   displayedColumns: string[] = ['license plate', 'name', 'wash type', 'location', 'timestamp', 'customer type', 'price']
   customerTypeList = [
     { value: 'companyagreement', text: 'Firmaaftale'},
@@ -28,7 +30,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   private getAllTransactions(): void {
-    this.transactionService.getAllTransactions(1, 10).subscribe(transactions => this.dataSource = transactions);
+    this.transactionService.getAllTransactions(1, 10).pipe(map((transactionData: TransactionData) => this.dataSource = transactionData)).subscribe();
   }
 
   public getDateWithFormat(date: Date): string {
@@ -48,6 +50,17 @@ export class TransactionListComponent implements OnInit {
 
     page = page +1; //There is nothing on page 0
 
-    this.transactionService.getAllTransactions(page, size).subscribe(transactions => this.dataSource = transactions)
+    if(this.searchValue == null || this.searchValue == "") {
+      this.transactionService.getAllTransactions(page, size).pipe(map((transactionData: TransactionData) => this.dataSource = transactionData)).subscribe();
+    } else {
+
+      this.transactionService.getFilteredTransactions(page, size, this.searchValue).pipe(map((transactionData: TransactionData) => this.dataSource = transactionData)).subscribe()
+    }
+  }
+
+  public searchForTransactions(queryString: string) {
+    console.log(queryString);
+    console.log(this.dataSource)
+    this.transactionService.getFilteredTransactions(1, 10, queryString).pipe(map((transactionData: TransactionData) => this.dataSource = transactionData)).subscribe()
   }
 }
