@@ -1,0 +1,23 @@
+.mat-list {
+  overflow: auto;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.mat-list-item:hover {
+  background-color: lightgray;
+}
+
+.mat-list-item:active { // only active when clicking
+  background-color: gray;
+}
+
+.selected-item {
+  background-color: gray;
+}
+
+.not-selected-item {
+  background-color: white;
+}

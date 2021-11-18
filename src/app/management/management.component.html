@@ -1,1 +1,27 @@
-<p>management works!</p>
+<div fxLayout="row">
+  <div fxLayout="column" fxFlex="20">
+    <mat-list>
+      <mat-list-item [ngClass]="{'selected-item': selectedLocation?.id === location.id}" *ngFor="let location of locations; last as last" (click)="getSelectedLocation(location)">
+        {{location.name}}, {{location.city}}
+        <mat-divider *ngIf="!last"></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div fxLayout="column" fxFlex="20">
+    <mat-list>
+      <mat-list-item [ngClass]="{'selected-item': selectedLocationWashTypeIndex === i}" *ngFor="let washType of locationWashTypes; last as last; let i = index" (click)="getSelectedLocationWashType(washType, i)">
+        {{washType.name}}, {{washType.price}} kr.
+        <mat-divider *ngIf="!last"></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div fxLayout="column" fxFlex="20">
+    <mat-list>
+      <mat-list-item [ngClass]="{'selected-item': selectedWashTypeIndex === i}" *ngFor="let washType of washTypes; last as last; let i = index" (click)="getSelectedWashType(washType, i)">
+       {{washType.name}}, {{washType.price}} kr.
+        <mat-divider *ngIf="!last"></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
+

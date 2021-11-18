@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { ManagementRoutingModule } from './management-routing.module';
 import { ManagementComponent } from './management.component';
+import { MatListModule } from "@angular/material/list";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -11,7 +14,10 @@ import { ManagementComponent } from './management.component';
   ],
   imports: [
     CommonModule,
-    ManagementRoutingModule
+    ManagementRoutingModule,
+    MatListModule,
+    MatDividerModule,
+    FlexLayoutModule,
   ]
 })
 export class ManagementModule { }
