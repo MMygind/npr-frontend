@@ -12,13 +12,16 @@ import { CreateEditWashtypeComponent } from './create-edit-washtype/create-edit-
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { ErrorAlertComponent } from './error-alert/error-alert.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
   declarations: [
     ManagementComponent,
     CreateEditLocationComponent,
-    CreateEditWashtypeComponent
+    CreateEditWashtypeComponent,
+    ErrorAlertComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +31,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatSnackBarModule,
+    MatDialogModule,
     FlexLayoutModule,
   ]
 })

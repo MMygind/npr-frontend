@@ -3,7 +3,8 @@ import {LocationService} from "../shared/services/location.service";
 import {WashTypeService} from "../shared/services/washtype.service";
 import {LocationModel} from "../shared/models/location.model";
 import {WashType} from "../shared/models/washtype.model";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorAlertComponent} from "./error-alert/error-alert.component";
 
 @Component({
   selector: 'app-management',
@@ -25,7 +26,7 @@ export class ManagementComponent implements OnInit {
 
   constructor(private locationService: LocationService,
               private washTypeService: WashTypeService,
-              private snackBar: MatSnackBar) {}
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getAllLocations();
@@ -44,18 +45,24 @@ export class ManagementComponent implements OnInit {
   getSelectedLocation(item: LocationModel) {
     this.selectedLocation = item;
     this.locationWashTypes = item.washTypes;
+    this.locationDetails = true;
+    this.washTypeDetails = false;
   }
 
   getSelectedLocationWashType(item: WashType, index: number) {
     this.selectedWashType = item;
     this.selectedLocationWashTypeIndex = index;
     this.selectedWashTypeIndex = -1;
+    this.washTypeDetails = true;
+    this.locationDetails = false;
   }
 
   getSelectedWashType(item: WashType, index: number) {
     this.selectedWashType = item;
     this.selectedWashTypeIndex = index;
     this.selectedLocationWashTypeIndex = -1;
+    this.washTypeDetails = true;
+    this.locationDetails = false;
   }
 
   addWashTypeToLocation() {
@@ -64,10 +71,6 @@ export class ManagementComponent implements OnInit {
       copiedLocation.washTypes.push(this.selectedWashType);
       this.updateLocation(copiedLocation);
     }
-  }
-
-  showSnackBarMessage(message: string) {
-    this.snackBar.open(message, 'Ok', { duration: 10000 });
   }
 
   removeWashTypeFromLocation() {
@@ -89,8 +92,9 @@ export class ManagementComponent implements OnInit {
         this.locationWashTypes = updatedLocation.washTypes;
         this.actionInProgress = false;
       }, error => {
-        console.log(error.error.message);
-        this.showSnackBarMessage(error.error.message);
+        this.dialog.open(ErrorAlertComponent,
+          { data: { message: error.error.message },
+          });
         this.actionInProgress = false;
       });
   }

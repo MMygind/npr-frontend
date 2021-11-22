@@ -1,1 +1,8 @@
-<p>create-edit-location works!</p>
+<mat-card>
+  <mat-card-header class="list-header">
+    <h3>Detaljer</h3>
+  </mat-card-header>
+  <mat-card-content>
+    <span *ngIf="location">{{location.name}}</span>
+  </mat-card-content>
+</mat-card>

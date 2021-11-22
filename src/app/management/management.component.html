@@ -70,12 +70,12 @@
       </mat-card-header>
       <mat-card-content>
         Klik på en lokation eller vasketype for at se dens detaljer,
-        eller på "Ny" for at oprette en ny lokatione eller vasketype.
+        eller på "Ny" for at oprette en ny lokation eller vasketype.
       </mat-card-content>
     </mat-card>
+    <app-create-edit-location *ngIf="locationDetails" [location]="selectedLocation"></app-create-edit-location>
+    <app-create-edit-washtype *ngIf="washTypeDetails" [washType]="selectedWashType"></app-create-edit-washtype>
   </div>
 
-  <app-create-edit-location *ngIf="locationDetails" [location]="selectedLocation"></app-create-edit-location>
-  <app-create-edit-washtype *ngIf="washTypeDetails" [washType]="selectedWashType"></app-create-edit-washtype>
 </div>
 
