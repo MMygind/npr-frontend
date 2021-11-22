@@ -4,7 +4,6 @@ import {WashTypeService} from "../shared/services/washtype.service";
 import {LocationModel} from "../shared/models/location.model";
 import {WashType} from "../shared/models/washtype.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {catchError} from "rxjs/operators";
 
 @Component({
   selector: 'app-management',
@@ -20,6 +19,7 @@ export class ManagementComponent implements OnInit {
   selectedWashType: WashType | undefined;
   selectedLocationWashTypeIndex = -1;
   selectedWashTypeIndex = -1;
+  actionInProgress = false;
   createLocation = false;
   createWashType = false;
   editLocation = false;
@@ -82,14 +82,18 @@ export class ManagementComponent implements OnInit {
   }
 
   updateLocation(location: LocationModel) {
+    this.actionInProgress = true;
     this.locationService.updateLocation(location)
       .subscribe(updatedLocation => {
         const indexToUpdate = this.locations.findIndex(location => location.id === updatedLocation.id);
         this.locations[indexToUpdate] = updatedLocation;
         this.selectedLocation = updatedLocation;
         this.locationWashTypes = updatedLocation.washTypes;
+        this.actionInProgress = false;
       }, error => {
-        this.showSnackBarMessage(error.error);
+        console.log(error.error.message);
+        this.showSnackBarMessage(error.error.message);
+        this.actionInProgress = false;
       });
   }
 

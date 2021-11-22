@@ -35,12 +35,12 @@
   </div>
 
   <div fxLayout="column" fxFlex="5"></div>
-  <button *ngIf="selectedWashTypeIndex !== -1 && selectedLocation" mat-icon-button (click)="addWashTypeToLocation()">
+  <button *ngIf="selectedWashTypeIndex !== -1 && selectedLocation" mat-icon-button [disabled]="actionInProgress" (click)="addWashTypeToLocation()">
     <div class="icon">
       <mat-icon [inline]="true">arrow_circle_left</mat-icon>
     </div>
   </button>
-  <button *ngIf="selectedLocationWashTypeIndex !== -1 && selectedLocation" mat-icon-button (click)="removeWashTypeFromLocation()">
+  <button *ngIf="selectedLocationWashTypeIndex !== -1 && selectedLocation" mat-icon-button [disabled]="actionInProgress" (click)="removeWashTypeFromLocation()">
   <div class="icon">
       <mat-icon [inline]="true">remove_circle</mat-icon>
   </div>
