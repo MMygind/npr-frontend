@@ -21,4 +21,15 @@ export class TransactionService {
 
     return this.http.get<TransactionData>(this.transactionUrl, {params});
   }
+
+  getFilteredTransactions(page: number, size: number, searchValue: string): Observable<TransactionData>
+  {
+    let params = new HttpParams();
+
+    params = params.append('page', String(page));
+    params = params.append('limit', String(size));
+    params = params.append('queryValue', searchValue);
+
+    return this.http.get<TransactionData>(this.transactionUrl, {params});
+  }
 }
