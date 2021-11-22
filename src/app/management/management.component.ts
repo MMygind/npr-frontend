@@ -20,10 +20,8 @@ export class ManagementComponent implements OnInit {
   selectedLocationWashTypeIndex = -1;
   selectedWashTypeIndex = -1;
   actionInProgress = false;
-  createLocation = false;
-  createWashType = false;
-  editLocation = false;
-  editWashType = false;
+  locationDetails = false;
+  washTypeDetails = false;
 
   constructor(private locationService: LocationService,
               private washTypeService: WashTypeService,

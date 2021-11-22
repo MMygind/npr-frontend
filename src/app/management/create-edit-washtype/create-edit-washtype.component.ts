@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {WashType} from "../../shared/models/washtype.model";
 
 @Component({
   selector: 'app-create-edit-washtype',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-edit-washtype.component.scss']
 })
 export class CreateEditWashtypeComponent implements OnInit {
+
+  @Input() washType?: WashType;
 
   constructor() { }
 
