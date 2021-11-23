@@ -1,0 +1,39 @@
+.mat-card {
+  border: solid 1px black;
+}
+
+.mat-card-header.list-header {
+  border-bottom: solid 1px black;
+}
+
+.mat-card-content {
+  padding-top: 10px;
+}
+
+.mat-list {
+  overflow: auto;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.mat-list-item:hover {
+  background-color: lightgray;
+}
+
+.mat-list-item:active { // only active when clicking
+  background-color: gray;
+}
+
+.selected-item {
+  background-color: gray;
+}
+
+.not-selected-item {
+  background-color: white;
+}
+
+.icon {
+  font-size: 48px;
+}

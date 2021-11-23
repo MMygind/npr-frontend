@@ -1,0 +1,81 @@
+<div fxLayout="row" style="padding: 10px" fxLayoutGap="10px">
+
+  <div fxLayout="column" fxFlex="20">
+    <mat-card>
+      <mat-card-header class="list-header">
+        <h3>Lokationer</h3>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item [ngClass]="{'selected-item': selectedLocation?.id === location.id}" *ngFor="let location of locations; last as last" (click)="getSelectedLocation(location)">
+            {{location.name}}, {{location.city}}
+            <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="15">
+    <mat-card>
+      <mat-card-header class="list-header">
+        <h3>Vasketyper her</h3>
+      </mat-card-header>
+      <mat-card-content *ngIf="selectedLocation">
+        <mat-list>
+          <mat-list-item [ngClass]="{'selected-item': selectedLocationWashTypeIndex === i}" *ngFor="let washType of locationWashTypes; last as last; let i = index" (click)="getSelectedLocationWashType(washType, i)">
+            {{washType.name}}, {{washType.price}} kr.
+            <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-content *ngIf="!selectedLocation">
+        Vælg en lokation for at se dens vasketyper.
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="5"></div>
+  <button *ngIf="selectedWashTypeIndex !== -1 && selectedLocation" mat-icon-button [disabled]="actionInProgress" (click)="addWashTypeToLocation()">
+    <div class="icon">
+      <mat-icon [inline]="true">arrow_circle_left</mat-icon>
+    </div>
+  </button>
+  <button *ngIf="selectedLocationWashTypeIndex !== -1 && selectedLocation" mat-icon-button [disabled]="actionInProgress" (click)="removeWashTypeFromLocation()">
+  <div class="icon">
+      <mat-icon [inline]="true">remove_circle</mat-icon>
+  </div>
+  </button>
+
+  <div fxLayout="column" fxFlex="15">
+    <mat-card>
+      <mat-card-header class="list-header">
+        <h3>Alle vasketyper</h3>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item [ngClass]="{'selected-item': selectedWashTypeIndex === i}" *ngFor="let washType of washTypes; last as last; let i = index" (click)="getSelectedWashType(washType, i)">
+            {{washType.name}}, {{washType.price}} kr.
+            <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="40">
+    <mat-card *ngIf="selectedLocation === undefined && selectedWashType === undefined">
+      <mat-card-header class="list-header">
+        <h3>Detaljer</h3>
+      </mat-card-header>
+      <mat-card-content>
+        Klik på en lokation eller vasketype for at se dens detaljer,
+        eller på "Ny" for at oprette en ny lokation eller vasketype.
+      </mat-card-content>
+    </mat-card>
+    <app-create-edit-location *ngIf="locationDetails" [location]="selectedLocation"></app-create-edit-location>
+    <app-create-edit-washtype *ngIf="washTypeDetails" [washType]="selectedWashType"></app-create-edit-washtype>
+  </div>
+
+</div>
+
