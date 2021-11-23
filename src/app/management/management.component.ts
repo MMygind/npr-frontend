@@ -5,6 +5,7 @@ import {LocationModel} from "../shared/models/location.model";
 import {WashType} from "../shared/models/washtype.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorAlertComponent} from "./error-alert/error-alert.component";
+import {ConfirmationAlertComponent} from "./confirmation-alert/confirmation-alert.component";
 
 @Component({
   selector: 'app-management',
@@ -37,7 +38,6 @@ export class ManagementComponent implements OnInit {
     this.locationService.getAllLocations().subscribe(locations => this.locations = locations);
   }
 
-
   getAllWashTypes() {
     this.washTypeService.getAllWashTypes().subscribe(washTypes => this.washTypes = washTypes);
   }
@@ -45,24 +45,24 @@ export class ManagementComponent implements OnInit {
   getSelectedLocation(item: LocationModel) {
     this.selectedLocation = item;
     this.locationWashTypes = item.washTypes;
-    this.locationDetails = true;
     this.washTypeDetails = false;
+    this.locationDetails = true;
   }
 
   getSelectedLocationWashType(item: WashType, index: number) {
     this.selectedWashType = item;
     this.selectedLocationWashTypeIndex = index;
     this.selectedWashTypeIndex = -1;
-    this.washTypeDetails = true;
     this.locationDetails = false;
+    this.washTypeDetails = true;
   }
 
   getSelectedWashType(item: WashType, index: number) {
     this.selectedWashType = item;
     this.selectedWashTypeIndex = index;
     this.selectedLocationWashTypeIndex = -1;
-    this.washTypeDetails = true;
     this.locationDetails = false;
+    this.washTypeDetails = true;
   }
 
   addWashTypeToLocation() {
@@ -116,4 +116,61 @@ export class ManagementComponent implements OnInit {
     return copy;
   }
 
+  newLocation() {
+    this.selectedLocation = undefined;
+    this.washTypeDetails = false;
+    this.locationDetails = true;
+  }
+
+  deleteLocation() {
+    this.actionInProgress = true;
+    if (!this.selectedLocation) {
+      this.dialog.open(ErrorAlertComponent,
+        { data: { message: 'Vælg en lokation at slette' },
+        });
+      this.actionInProgress = false;
+      return;
+    }
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent,
+      { data: { message: `Slette lokationen ${this.selectedLocation.name}?` },
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Confirmed');
+        this.selectedLocation = undefined;
+      }
+      this.actionInProgress = false;
+    });
+  }
+
+  newWashType() {
+    this.selectedWashType = undefined;
+    this.selectedWashTypeIndex = -1;
+    this.selectedLocationWashTypeIndex = -1;
+    this.locationDetails = false;
+    this.washTypeDetails = true;
+  }
+
+  deleteWashType() {
+    this.actionInProgress = true;
+    if (!this.selectedWashType) {
+      this.dialog.open(ErrorAlertComponent,
+        { data: { message: 'Vælg en vasketype at slette' },
+        });
+      this.actionInProgress = false;
+      return;
+    }
+    const dialogRef = this.dialog.open(ConfirmationAlertComponent,
+      { data: { message: `Slette vasketypen ${this.selectedWashType.name}?` },
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Confirmed');
+        this.selectedWashType = undefined;
+        this.selectedLocationWashTypeIndex = -1;
+        this.selectedWashTypeIndex = -1;
+      }
+      this.actionInProgress = false;
+    });
+  }
 }

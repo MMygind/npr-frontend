@@ -14,6 +14,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { ErrorAlertComponent } from './error-alert/error-alert.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { ConfirmationAlertComponent } from './confirmation-alert/confirmation-alert.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     ManagementComponent,
     CreateEditLocationComponent,
     CreateEditWashtypeComponent,
-    ErrorAlertComponent
+    ErrorAlertComponent,
+    ConfirmationAlertComponent
   ],
   imports: [
     CommonModule,
