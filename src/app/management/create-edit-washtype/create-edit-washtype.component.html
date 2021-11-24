@@ -5,8 +5,8 @@
   <mat-card-content>
     <span *ngIf="washType">{{washType.name}}</span>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-stroked-button>
+  <mat-card-actions class="list-actions">
+    <button mat-stroked-button (click)="saveWashType()" [disabled]="actionInProgress">
       <div *ngIf="washType">Opdatér</div>
       <div *ngIf="!washType">Opret</div>
     </button>

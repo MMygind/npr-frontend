@@ -205,4 +205,20 @@ export class ManagementComponent implements OnInit {
       this.actionInProgress = false;
     });
   }
+
+  saveWashType(washType: WashType) {
+    if (this.selectedWashType) {
+      console.log('Updated wash type:', washType);
+    } else {
+      console.log('Created wash type:', washType);
+    }
+  }
+
+  saveLocation(location: LocationModel) {
+    if (this.selectedLocation) {
+      console.log('Updated location:', location);
+    } else {
+      console.log('Created location:', location);
+    }
+  }
 }
