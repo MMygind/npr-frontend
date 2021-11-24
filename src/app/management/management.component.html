@@ -74,7 +74,7 @@
   </div>
 
   <div fxLayout="column" fxFlex="40">
-    <mat-card *ngIf="!locationDetails && !washTypeDetails">
+    <mat-card *ngIf="!showingLocationForm && !showingWashTypeForm">
       <mat-card-header class="list-header">
         <h3>Detaljer</h3>
       </mat-card-header>
@@ -83,8 +83,8 @@
         eller på "Ny" for at oprette en ny lokation eller vasketype.
       </mat-card-content>
     </mat-card>
-    <app-create-edit-location *ngIf="locationDetails" [location]="selectedLocation"></app-create-edit-location>
-    <app-create-edit-washtype *ngIf="washTypeDetails" [washType]="selectedWashType"></app-create-edit-washtype>
+    <app-create-edit-location *ngIf="showingLocationForm" [location]="selectedLocation"></app-create-edit-location>
+    <app-create-edit-washtype *ngIf="showingWashTypeForm" [washType]="selectedWashType"></app-create-edit-washtype>
   </div>
 
 </div>

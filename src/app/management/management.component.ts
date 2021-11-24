@@ -22,8 +22,8 @@ export class ManagementComponent implements OnInit {
   selectedLocationWashTypeIndex = -1;
   selectedWashTypeIndex = -1;
   actionInProgress = false;
-  locationDetails = false;
-  washTypeDetails = false;
+  showingLocationForm = false;
+  showingWashTypeForm = false;
 
   constructor(private locationService: LocationService,
               private washTypeService: WashTypeService,
@@ -45,24 +45,24 @@ export class ManagementComponent implements OnInit {
   getSelectedLocation(item: LocationModel) {
     this.selectedLocation = item;
     this.locationWashTypes = item.washTypes;
-    this.washTypeDetails = false;
-    this.locationDetails = true;
+    this.showingWashTypeForm = false;
+    this.showingLocationForm = true;
   }
 
   getSelectedLocationWashType(item: WashType, index: number) {
     this.selectedWashType = item;
     this.selectedLocationWashTypeIndex = index;
     this.selectedWashTypeIndex = -1;
-    this.locationDetails = false;
-    this.washTypeDetails = true;
+    this.showingLocationForm = false;
+    this.showingWashTypeForm = true;
   }
 
   getSelectedWashType(item: WashType, index: number) {
     this.selectedWashType = item;
     this.selectedWashTypeIndex = index;
     this.selectedLocationWashTypeIndex = -1;
-    this.locationDetails = false;
-    this.washTypeDetails = true;
+    this.showingLocationForm = false;
+    this.showingWashTypeForm = true;
   }
 
   addWashTypeToLocation() {
@@ -118,8 +118,8 @@ export class ManagementComponent implements OnInit {
 
   newLocation() {
     this.selectedLocation = undefined;
-    this.washTypeDetails = false;
-    this.locationDetails = true;
+    this.showingWashTypeForm = false;
+    this.showingLocationForm = true;
   }
 
   deleteLocation() {
@@ -160,8 +160,8 @@ export class ManagementComponent implements OnInit {
     this.selectedWashType = undefined;
     this.selectedWashTypeIndex = -1;
     this.selectedLocationWashTypeIndex = -1;
-    this.locationDetails = false;
-    this.washTypeDetails = true;
+    this.showingLocationForm = false;
+    this.showingWashTypeForm = true;
   }
 
   deleteWashType() {
