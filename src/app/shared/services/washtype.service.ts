@@ -29,7 +29,7 @@ export class WashTypeService {
     return this.http.put<WashType>(this.locationUrl + `/${location.id}`, location);
   }
 
-  deleteWashType(id: number) {
-    this.http.delete<WashType>(this.locationUrl + `/${id}`);
+  deleteWashType(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(this.locationUrl + `/${id}`);
   }
 }

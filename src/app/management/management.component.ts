@@ -135,9 +135,22 @@ export class ManagementComponent implements OnInit {
       { data: { message: `Slette lokationen ${this.selectedLocation.name}?` },
       });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Confirmed');
-        this.selectedLocation = undefined;
+      if (result && this.selectedLocation?.id) {
+        this.locationService.deleteLocation(this.selectedLocation.id).subscribe(success => {
+          if (success) {
+            this.locations = this.locations.filter(location => location.id !== this.selectedLocation?.id);
+            this.locationWashTypes = [];
+            this.selectedLocation = undefined;
+          } else {
+            this.dialog.open(ErrorAlertComponent,
+              { data: { message: 'Noget gik galt' },
+              });
+          }
+        }, error => {
+          this.dialog.open(ErrorAlertComponent,
+            { data: { message: error.error.message },
+            });
+        });
       }
       this.actionInProgress = false;
     });
@@ -164,11 +177,30 @@ export class ManagementComponent implements OnInit {
       { data: { message: `Slette vasketypen ${this.selectedWashType.name}?` },
       });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Confirmed');
-        this.selectedWashType = undefined;
-        this.selectedLocationWashTypeIndex = -1;
-        this.selectedWashTypeIndex = -1;
+      if (result && this.selectedWashType?.id) {
+        this.washTypeService.deleteWashType(this.selectedWashType.id).subscribe(success => {
+          if (success) {
+            this.washTypes = this.washTypes.filter(washType => washType.id !== this.selectedWashType?.id);
+            this.locations.forEach(location => {
+              location.washTypes = location.washTypes
+                .filter(washType => washType.id !== this.selectedWashType?.id);
+            })
+            if (this.selectedLocation) {
+              this.locationWashTypes = this.selectedLocation.washTypes;
+            }
+            this.selectedWashType = undefined;
+            this.selectedLocationWashTypeIndex = -1;
+            this.selectedWashTypeIndex = -1;
+          } else {
+            this.dialog.open(ErrorAlertComponent,
+              { data: { message: 'Noget gik galt' },
+              });
+          }
+        }, error => {
+          this.dialog.open(ErrorAlertComponent,
+            { data: { message: error.error.message },
+            });
+        });
       }
       this.actionInProgress = false;
     });
