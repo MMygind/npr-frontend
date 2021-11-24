@@ -5,4 +5,8 @@
   <mat-card-content>
     <span *ngIf="location">{{location.name}}</span>
   </mat-card-content>
+  <button mat-stroked-button>
+    <div *ngIf="location">Opdatér</div>
+    <div *ngIf="!location">Opret</div>
+  </button>
 </mat-card>

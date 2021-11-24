@@ -5,4 +5,10 @@
   <mat-card-content>
     <span *ngIf="washType">{{washType.name}}</span>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button>
+      <div *ngIf="washType">Opdatér</div>
+      <div *ngIf="!washType">Opret</div>
+    </button>
+  </mat-card-actions>
 </mat-card>
