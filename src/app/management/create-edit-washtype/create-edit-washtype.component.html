@@ -20,7 +20,7 @@
   </mat-card-content>
   <mat-card-actions class="list-actions">
     <button mat-stroked-button (click)="saveWashType()"
-            [disabled]="actionInProgress || washTypeForm.invalid">
+            [disabled]="actionInProgress || parentActionInProgress || washTypeForm.invalid">
       <div *ngIf="washType">Opdatér</div>
       <div *ngIf="!washType">Opret</div>
     </button>

@@ -13,6 +13,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 export class CreateEditWashtypeComponent implements OnInit, OnChanges {
 
   @Input() washType?: WashType;
+  @Input() parentActionInProgress = false;
   @Output() washTypeEvent = new EventEmitter<WashType>();
   actionInProgress = false;
   defaultCompany: Company;

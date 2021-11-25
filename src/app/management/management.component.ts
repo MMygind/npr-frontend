@@ -82,23 +82,6 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  updateLocation(location: LocationModel) {
-    this.actionInProgress = true;
-    this.locationService.updateLocation(location)
-      .subscribe(updatedLocation => {
-        const indexToUpdate = this.locations.findIndex(location => location.id === updatedLocation.id);
-        this.locations[indexToUpdate] = updatedLocation;
-        this.selectedLocation = updatedLocation;
-        this.locationWashTypes = updatedLocation.washTypes;
-        this.actionInProgress = false;
-      }, error => {
-        this.dialog.open(ErrorAlertComponent,
-          { data: { message: error.error.message },
-          });
-        this.actionInProgress = false;
-      });
-  }
-
   copyLocation(location: LocationModel): LocationModel {
     const alteredWashTypes: WashType[] = [];
     location.washTypes.forEach(washType => alteredWashTypes.push(washType));
@@ -208,17 +191,87 @@ export class ManagementComponent implements OnInit {
 
   saveWashType(washType: WashType) {
     if (this.selectedWashType) {
-      console.log('Updated wash type:', washType);
+      this.updateWashType(washType);
     } else {
-      console.log('Created wash type:', washType);
+      this.createWashType(washType)
     }
   }
 
   saveLocation(location: LocationModel) {
     if (this.selectedLocation) {
-      console.log('Updated location:', location);
+      this.updateLocation(location);
     } else {
-      console.log('Created location:', location);
+      this.createLocation(location);
     }
+  }
+
+  updateLocation(location: LocationModel) {
+    this.actionInProgress = true;
+    this.locationService.updateLocation(location)
+      .subscribe(updatedLocation => {
+        const indexToUpdate = this.locations.findIndex(location => location.id === updatedLocation.id);
+        this.locations[indexToUpdate] = updatedLocation;
+        this.getSelectedLocation(updatedLocation);
+        this.actionInProgress = false;
+      }, error => {
+        this.dialog.open(ErrorAlertComponent,
+          { data: { message: error.error.message },
+          });
+        this.actionInProgress = false;
+      });
+  }
+
+  createLocation(location: LocationModel) {
+    this.actionInProgress = true;
+    this.locationService.createLocation(location)
+      .subscribe(createdLocation => {
+        this.locations.push(createdLocation)
+        this.getSelectedLocation(createdLocation);
+        this.actionInProgress = false;
+      }, error => {
+        this.dialog.open(ErrorAlertComponent,
+          { data: { message: error.error.message },
+          });
+        this.actionInProgress = false;
+      });
+  }
+
+  updateWashType(washType: WashType) {
+    this.actionInProgress = true;
+    this.washTypeService.updateWashType(washType)
+      .subscribe(updatedWashType => {
+        const washTypesIndex = this.washTypes.findIndex(washType => washType.id === updatedWashType.id);
+        this.washTypes[washTypesIndex] = updatedWashType;
+        this.locations.forEach(location => {
+          const locationWashTypesIndex = location.washTypes
+            .findIndex(washType => washType.id === updatedWashType.id);
+          location.washTypes[locationWashTypesIndex] = updatedWashType;
+        })
+        if (this.selectedLocation) {
+          this.locationWashTypes = this.selectedLocation.washTypes;
+        }
+        this.getSelectedWashType(updatedWashType, washTypesIndex);
+        this.actionInProgress = false;
+      }, error => {
+        this.dialog.open(ErrorAlertComponent,
+          { data: { message: error.error.message },
+          });
+        this.actionInProgress = false;
+      });
+  }
+
+  createWashType(washType: WashType) {
+    this.actionInProgress = true;
+    this.washTypeService.createWashType(washType)
+      .subscribe(createdWashType => {
+        this.washTypes.push(createdWashType);
+        this.getSelectedWashType(createdWashType, this.washTypes.length - 1);
+        this.actionInProgress = false;
+      }, error => {
+        this.dialog.open(ErrorAlertComponent,
+          { data: { message: error.error.message },
+          });
+        this.actionInProgress = false;
+      })
   }
 }

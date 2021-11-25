@@ -13,6 +13,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 export class CreateEditLocationComponent implements OnInit, OnChanges {
 
   @Input() location?: LocationModel;
+  @Input() parentActionInProgress = false;
   @Output() locationEvent = new EventEmitter<LocationModel>();
   actionInProgress = false;
   defaultCompany: Company;

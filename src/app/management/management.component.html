@@ -83,8 +83,12 @@
         eller på "Ny" for at oprette en ny lokation eller vasketype.
       </mat-card-content>
     </mat-card>
-    <app-create-edit-location *ngIf="showingLocationForm" [location]="selectedLocation" (locationEvent)="saveLocation($event)"></app-create-edit-location>
-    <app-create-edit-washtype *ngIf="showingWashTypeForm" [washType]="selectedWashType" (washTypeEvent)="saveWashType($event)"></app-create-edit-washtype>
+    <app-create-edit-location *ngIf="showingLocationForm"
+                              [location]="selectedLocation" [parentActionInProgress]="actionInProgress"
+                              (locationEvent)="saveLocation($event)"></app-create-edit-location>
+    <app-create-edit-washtype *ngIf="showingWashTypeForm"
+                              [washType]="selectedWashType" [parentActionInProgress]="actionInProgress"
+                              (washTypeEvent)="saveWashType($event)"></app-create-edit-washtype>
   </div>
 
 </div>
