@@ -4,6 +4,7 @@
 
 .mat-card-header.list-header {
   border-bottom: solid 1px black;
+  justify-content: center;
 }
 
 .mat-card-actions.list-actions {
@@ -12,4 +13,6 @@
 
 .mat-card-content {
   padding-top: 10px;
+  display: flex;
+  justify-content: center;
 }

@@ -1,22 +1,31 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {LocationModel} from "../../shared/models/location.model";
 import {Company} from "../../shared/models/company.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationAlertComponent} from "../confirmation-alert/confirmation-alert.component";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-create-edit-location',
   templateUrl: './create-edit-location.component.html',
   styleUrls: ['./create-edit-location.component.scss']
 })
-export class CreateEditLocationComponent implements OnInit {
+export class CreateEditLocationComponent implements OnInit, OnChanges {
 
   @Input() location?: LocationModel;
   @Output() locationEvent = new EventEmitter<LocationModel>();
   actionInProgress = false;
   defaultCompany: Company;
+  locationForm = this.fb.group({
+    name: [null, Validators.required],
+    address: [null, Validators.required],
+    postalCode: [null, [Validators.required, Validators.min(1000), Validators.max(9999)]],
+    city: [null, Validators.required],
+  })
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,
+              private fb: FormBuilder) {
+    // to be removed later!
     this.defaultCompany = {
       id: 1,
       name: '',
@@ -26,16 +35,35 @@ export class CreateEditLocationComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.updateForm();
+  }
+
+  updateForm() {
+    if (this.location) {
+      this.locationForm.patchValue({
+        name: this.location.name,
+        address: this.location.address,
+        postalCode: this.location.postalCode,
+        city: this.location.city,
+      });
+    } else {
+      this.locationForm.reset();
+    }
+  }
 
   saveLocation() {
     this.actionInProgress = true;
     const locationToReturn: LocationModel = {
       company: this.defaultCompany,
-      name: 'New company',
-      address: 'Nystræde 1',
-      postalCode: 1000,
-      city: 'Hovedstaden',
+      name: this.locationForm.value.name,
+      address: this.locationForm.value.address,
+      postalCode: this.locationForm.value.postalCode,
+      city: this.locationForm.value.city,
       washTypes: [],
       longitude: 0,
       latitude: 0,
@@ -43,10 +71,6 @@ export class CreateEditLocationComponent implements OnInit {
     if (this.location) {
       locationToReturn.id = this.location.id;
       locationToReturn.company = this.location.company;
-      locationToReturn.name = this.location.name;
-      locationToReturn.address = this.location.address;
-      locationToReturn.postalCode = this.location.postalCode;
-      locationToReturn.city = this.location.city;
       locationToReturn.washTypes = this.location.washTypes;
       locationToReturn.longitude = this.location.longitude;
       locationToReturn.latitude = this.location.latitude;

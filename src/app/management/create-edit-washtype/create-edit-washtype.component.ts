@@ -1,22 +1,29 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {WashType} from "../../shared/models/washtype.model";
 import {Company} from "../../shared/models/company.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationAlertComponent} from "../confirmation-alert/confirmation-alert.component";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-create-edit-washtype',
   templateUrl: './create-edit-washtype.component.html',
   styleUrls: ['./create-edit-washtype.component.scss']
 })
-export class CreateEditWashtypeComponent implements OnInit {
+export class CreateEditWashtypeComponent implements OnInit, OnChanges {
 
   @Input() washType?: WashType;
   @Output() washTypeEvent = new EventEmitter<WashType>();
   actionInProgress = false;
   defaultCompany: Company;
+  washTypeForm = this.fb.group({
+    name: [null, Validators.required],
+    price: [null, [Validators.required, Validators.min(1)]],
+  });
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,
+              private fb: FormBuilder) {
+    // to be removed later!
     this.defaultCompany = {
       id: 1,
       name: '',
@@ -26,20 +33,35 @@ export class CreateEditWashtypeComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.updateForm();
+  }
+
+  updateForm() {
+    if (this.washType) {
+      this.washTypeForm.patchValue({
+        name: this.washType.name,
+        price: this.washType.price,
+      });
+    } else {
+      this.washTypeForm.reset();
+    }
+  }
 
   saveWashType() {
     this.actionInProgress = true;
     const washTypeToReturn: WashType = {
       company: this.defaultCompany,
-      name: 'New wash type',
-      price: 1,
+      name: this.washTypeForm.value.name,
+      price: this.washTypeForm.value.price,
     }
     if (this.washType) {
       washTypeToReturn.id = this.washType.id;
-      washTypeToReturn.name = this.washType.name;
       washTypeToReturn.company = undefined;
-      washTypeToReturn.price = this.washType.price;
     }
     const dialogMessage = (this.washType)
       ? `Opdatere ${washTypeToReturn.name}?` : `Oprette ${washTypeToReturn.name}?`;
@@ -53,5 +75,7 @@ export class CreateEditWashtypeComponent implements OnInit {
       this.actionInProgress = false;
     });
   }
+
+
 
 }

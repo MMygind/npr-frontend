@@ -15,6 +15,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { ErrorAlertComponent } from './error-alert/error-alert.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { ConfirmationAlertComponent } from './confirmation-alert/confirmation-alert.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import { ConfirmationAlertComponent } from './confirmation-alert/confirmation-al
     MatButtonModule,
     MatDialogModule,
     FlexLayoutModule,
+    ReactiveFormsModule,
+    MatInputModule,
   ]
 })
 export class ManagementModule { }
