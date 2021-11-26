@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    MatTabsModule,
   ],
   providers: [],
   exports: [

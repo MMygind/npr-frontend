@@ -1,1 +1,5 @@
-<p>navigation-bar works!</p>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link *ngFor="let element of elements"
+     routerLink="{{element.path}}" [active]="activeLink === element.path"
+  >{{element.name}}</a>
+</nav>

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {NavigationElement} from "./navigation-element";
+import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-navigation-bar',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor() { }
+  elements: NavigationElement[] = [
+    { path: '/management', name: 'Administration'},
+    { path: '/customers', name: 'Kunder'},
+    { path: '/transactions', name: 'Transaktioner'}
+  ];
+  activeLink: string | undefined;
+
+  constructor(private location: Location, private router: Router) { }
 
   ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      this.activeLink = this.location.path();
+    })
   }
 
 }
