@@ -1,5 +1,6 @@
-<nav mat-tab-nav-bar>
+<nav *ngIf="showNavBar" mat-tab-nav-bar mat-align-tabs="end">
   <a mat-tab-link *ngFor="let element of elements"
-     routerLink="{{element.path}}" [active]="activeLink === element.path"
+     [ngClass]="{'link': element.path === activeLink}"
+     routerLink="{{element.path}}"
   >{{element.name}}</a>
 </nav>
