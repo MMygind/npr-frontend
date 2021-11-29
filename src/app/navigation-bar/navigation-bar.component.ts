@@ -16,19 +16,12 @@ export class NavigationBarComponent implements OnInit {
     { path: '/transactions', name: 'Transaktioner'}
   ];
   activeLink: string | undefined;
-  showNavBar = true;
 
   constructor(private location: Location, private router: Router) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(() => {
-      // don't show navigation bar on login screen
-      if (this.location.path() == '/login') {
-        this.showNavBar = false;
-      } else {
-        this.showNavBar = true;
         this.activeLink = this.location.path();
-      }
     });
   }
 
