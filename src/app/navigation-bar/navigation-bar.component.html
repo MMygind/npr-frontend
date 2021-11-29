@@ -1,4 +1,4 @@
-<nav *ngIf="activeLink !== '/customers'" mat-tab-nav-bar mat-align-tabs="end">
+<nav *ngIf="activeLink !== '/login'" mat-tab-nav-bar mat-align-tabs="end">
   <a mat-tab-link *ngFor="let element of elements"
      class="link" [ngClass]="{'link-active': element.path === activeLink}"
      routerLink="{{element.path}}"
