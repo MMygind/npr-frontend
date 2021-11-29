@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Bekræft dit valg</h1>
+<div mat-dialog-content>Ønsker du virkelig at:
+  <br>
+  <div>{{data.message}}</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]>Nej</button>
+  <button mat-button [mat-dialog-close]="true">Ja</button>
+</div>

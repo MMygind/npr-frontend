@@ -29,8 +29,8 @@ export class LocationService {
     return this.http.put<LocationModel>(this.locationUrl + `/${location.id}`, location);
   }
 
-  deleteLocation(id: number) {
-    this.http.delete<LocationModel>(this.locationUrl + `/${id}`);
+  deleteLocation(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(this.locationUrl + `/${id}`);
   }
 
 

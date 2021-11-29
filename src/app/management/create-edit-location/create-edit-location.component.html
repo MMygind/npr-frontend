@@ -1,8 +1,39 @@
 <mat-card>
   <mat-card-header class="list-header">
-    <h3>Detaljer</h3>
+    <h3>Detaljer om lokation</h3>
   </mat-card-header>
   <mat-card-content>
-    <span *ngIf="location">{{location.name}}</span>
+    <form [formGroup]="locationForm">
+      <mat-form-field appearance="standard">
+        <mat-label>Navn</mat-label>
+        <input matInput type="text" formControlName="name">
+        <mat-error *ngIf="locationForm.controls.name.invalid">Feltet skal udfyldes</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="standard">
+        <mat-label>Adresse</mat-label>
+        <input matInput type="text" formControlName="address">
+        <mat-error *ngIf="locationForm.controls.address.invalid">Feltet skal udfyldes</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="standard">
+        <mat-label>Postnummer</mat-label>
+        <input matInput type="number" formControlName="postalCode">
+        <mat-error *ngIf="locationForm.controls.postalCode.invalid">Postnummer skal ligge mellem 1000 og 9999</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="standard">
+        <mat-label>By</mat-label>
+        <input matInput type="text" formControlName="city">
+        <mat-error *ngIf="locationForm.controls.city.invalid">Feltet skal udfyldes</mat-error>
+      </mat-form-field>
+    </form>
   </mat-card-content>
+  <mat-card-actions class="list-actions">
+    <button mat-stroked-button (click)="saveLocation()"
+            [disabled]="actionInProgress || parentActionInProgress || locationForm.invalid">
+      <div *ngIf="location">Opdatér</div>
+      <div *ngIf="!location">Opret</div>
+    </button>
+  </mat-card-actions>
 </mat-card>
