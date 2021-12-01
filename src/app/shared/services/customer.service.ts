@@ -32,9 +32,6 @@ export class CustomerService {
 
     let list = this.http.get<Customer[]>(url);
 
-    console.log(url);
-    console.log(list);
-
     return list;
   }
 
