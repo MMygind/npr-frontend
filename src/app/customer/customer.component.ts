@@ -11,26 +11,31 @@ import {DatePipe} from "@angular/common";
 export class CustomerComponent implements OnInit {
 
   customerList: Customer[] = [];
+  chosenCustomer: Customer | undefined;
   displayedColumns: string[] = ['name', 'email', 'phonenumber', 'creationdate', 'subscription', 'licenseplates', 'active'];
   dataSource = this.customerList;
   statusList = [
-    { value: 'active', text: 'Aktiv'},
-    { value: 'deactivated', text: 'Deaktiveret'}]
+    { value: 'true', text: 'Aktiv'},
+    { value: 'false', text: 'Deaktiveret'}]
 
   customerTypeList = [
-    { value: 'subscription', text: 'Abonnement'},
-    { value: 'washclub', text: 'Vaskeklub'},
-    { value: 'company', text: 'Firmaaftale'}]
+    { value: 'Abonnement', text: 'Abonnement'},
+    { value: 'Vaskeklub', text: 'Vaskeklub'},
+    { value: 'Firmaaftale', text: 'Firmaaftale'}]
 
+  selection: boolean = false;
+  selectedType: string | null = null;
+  selectedStatus: boolean | null = null;
 
-  constructor(private customerService: CustomerService, public datepipe: DatePipe) { }
-
-  ngOnInit(): void {
-    this.getAllCustomers();
+  constructor(private customerService: CustomerService, public datepipe: DatePipe) {
   }
 
-  private getAllCustomers(): void {
-    this.customerService.getAllCustomers().subscribe(customers => this.customerList = customers);
+  ngOnInit(): void {
+    this.getAllCustomers(null, null);
+  }
+
+  private getAllCustomers(active: boolean | null, subscription: string | null): void {
+    this.customerService.getAllFilteredCustomers(active, subscription ).subscribe(customers => this.customerList = customers);
   }
 
   public getDateWithFormat(date: Date): string {
@@ -44,4 +49,19 @@ export class CustomerComponent implements OnInit {
     }
   }
 
+  public setChosenCustomer(customer: Customer) {
+    this.chosenCustomer = customer;
+  }
+
+  public changeCustomerStatus() {
+    if(this.chosenCustomer != undefined) {
+      this.chosenCustomer.active = !this.chosenCustomer.active;
+
+      this.customerService.updateCustomer(this.chosenCustomer).subscribe();
+    }
+  }
+
+  public updateList() {
+    this.getAllCustomers(this.selectedStatus, this.selectedType);
+  }
 }

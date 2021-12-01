@@ -38,6 +38,15 @@ h1 {
 }
 
 
+.table-row:focus {
+  background-color: #bdbdbd;
+  outline: none;
+}
+.table-row:focus mat-cell {
+  color: white;
+}
+
+
 .status-select {
   width: 15%;
   margin-left: 2%;
