@@ -13,10 +13,6 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.customerUrl);
-  }
-
   getAllFilteredCustomers(active: boolean | null, subscription: string | null): Observable<Customer[]> {
     let url = this.customerUrl;
 
