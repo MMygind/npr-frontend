@@ -13,7 +13,25 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.customerUrl);
+  getAllFilteredCustomers(active: boolean | null, subscription: string | null): Observable<Customer[]> {
+    let url = this.customerUrl;
+
+    if (active != null) {
+      url = url + "?active=" + active;
+    }
+    if (subscription != null && active == null) {
+      url = url + "?subscription=" + subscription;
+    }
+    else if (subscription != null && active != null) {
+      url = url + "&subscription=" + subscription;
+    }
+
+    let list = this.http.get<Customer[]>(url);
+
+    return list;
+  }
+
+  updateCustomer(customer: Customer): Observable<Customer> {
+    return this.http.put<Customer>(this.customerUrl, customer);
   }
 }
