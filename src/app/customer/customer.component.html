@@ -86,6 +86,10 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr >
       <tr mat-row *matRowDef="let customer; columns: displayedColumns;" (click)="setChosenCustomer(customer)" class="table-row" tabindex="1"></tr>
     </mat-table>
+    <mat-paginator [length]="dataSource.meta.totalItems"
+                  [pageSize]="dataSource.meta.itemsPerPage"
+                  showFirstLastButtons
+                  (page)="pageEvent = $event; onPaginateChange($event)">
+    </mat-paginator>
   </div>
-
 </div>

@@ -4,6 +4,7 @@ import {CustomerService} from "../shared/services/customer.service";
 import {DatePipe} from "@angular/common";
 import {map} from "rxjs/operators";
 import {ActivatedRoute, Router} from "@angular/router";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-customer',
@@ -28,6 +29,7 @@ export class CustomerComponent implements OnInit {
   selectedType: string | null = null;
   selectedStatus: boolean | null = null;
   searchValue: string | null = null;
+  pageEvent: PageEvent | undefined;
 
   constructor(private customerService: CustomerService, public datepipe: DatePipe, private route: ActivatedRoute) {
     if(route.snapshot.params)
@@ -40,10 +42,10 @@ export class CustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllCustomers();
+    this.updateList();
   }
 
-  private getAllCustomers(): void {
+  public updateList(): void {
     this.customerService.getAllFilteredCustomers(1, 10, this.searchValue, this.selectedStatus, this.selectedType ).pipe(map((customerData: CustomerData) => this.dataSource = customerData)).subscribe();
   }
 
@@ -70,9 +72,11 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-  public updateList() {
-    this.getAllCustomers();
+  public onPaginateChange(event: PageEvent) {
+    let page = event.pageIndex;
+    let size = event.pageSize;
 
-    console.log("hello")
+    page = page +1;
+    this.customerService.getAllFilteredCustomers(page, size, this.searchValue, this.selectedStatus, this.selectedType ).pipe(map((customerData: CustomerData) => this.dataSource = customerData)).subscribe();
   }
 }
