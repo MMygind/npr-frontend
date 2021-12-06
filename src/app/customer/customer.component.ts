@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Customer} from "../shared/models/customer.model";
+import {Customer, CustomerData} from "../shared/models/customer.model";
 import {CustomerService} from "../shared/services/customer.service";
 import {DatePipe} from "@angular/common";
+import {map} from "rxjs/operators";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-customer',
@@ -10,10 +12,9 @@ import {DatePipe} from "@angular/common";
 })
 export class CustomerComponent implements OnInit {
 
-  customerList: Customer[] = [];
+  dataSource: CustomerData | undefined;
   chosenCustomer: Customer | undefined;
   displayedColumns: string[] = ['name', 'email', 'phonenumber', 'creationdate', 'subscription', 'licenseplates', 'active'];
-  dataSource = this.customerList;
   statusList = [
     { value: 'true', text: 'Aktiv'},
     { value: 'false', text: 'Deaktiveret'}]
@@ -26,16 +27,24 @@ export class CustomerComponent implements OnInit {
   selection: boolean = false;
   selectedType: string | null = null;
   selectedStatus: boolean | null = null;
+  searchValue: string | null = null;
 
-  constructor(private customerService: CustomerService, public datepipe: DatePipe) {
+  constructor(private customerService: CustomerService, public datepipe: DatePipe, private route: ActivatedRoute) {
+    if(route.snapshot.params)
+    {
+      this.route.queryParams.subscribe(params => {
+        this.searchValue = params['searchString'];
+        this.updateList();
+      })
+    }
   }
 
   ngOnInit(): void {
-    this.getAllCustomers(null, null);
+    this.getAllCustomers();
   }
 
-  private getAllCustomers(active: boolean | null, subscription: string | null): void {
-    this.customerService.getAllFilteredCustomers(active, subscription ).subscribe(customers => this.customerList = customers);
+  private getAllCustomers(): void {
+    this.customerService.getAllFilteredCustomers(1, 10, this.searchValue, this.selectedStatus, this.selectedType ).pipe(map((customerData: CustomerData) => this.dataSource = customerData)).subscribe();
   }
 
   public getDateWithFormat(date: Date): string {
@@ -62,6 +71,8 @@ export class CustomerComponent implements OnInit {
   }
 
   public updateList() {
-    this.getAllCustomers(this.selectedStatus, this.selectedType);
+    this.getAllCustomers();
+
+    console.log("hello")
   }
 }
