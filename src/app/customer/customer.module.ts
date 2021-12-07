@@ -13,6 +13,7 @@ import {MatIconModule, MatIconRegistry} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule
   ]
 })
 export class CustomerModule { }

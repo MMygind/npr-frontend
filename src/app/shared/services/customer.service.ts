@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Customer} from "../models/customer.model";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Customer, CustomerData} from "../models/customer.model";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -13,22 +13,22 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
-  getAllFilteredCustomers(active: boolean | null, subscription: string | null): Observable<Customer[]> {
-    let url = this.customerUrl;
+  getAllFilteredCustomers(page: number, size: number, searchValue: string | null, active: boolean | null, subscription: string | null): Observable<CustomerData> {
+    let params = new HttpParams();
 
-    if (active != null) {
-      url = url + "?active=" + active;
+    params = params.append('page', String(page));
+    params = params.append('limit', String(size));
+    if (searchValue) {
+      params = params.append('queryValue', searchValue);
     }
-    if (subscription != null && active == null) {
-      url = url + "?subscription=" + subscription;
+    if (active) {
+      params = params.append('active', active);
     }
-    else if (subscription != null && active != null) {
-      url = url + "&subscription=" + subscription;
+    if (subscription) {
+      params = params.append('subscription', subscription);
     }
 
-    let list = this.http.get<Customer[]>(url);
-
-    return list;
+    return this.http.get<CustomerData>(this.customerUrl, {params});
   }
 
   updateCustomer(customer: Customer): Observable<Customer> {
