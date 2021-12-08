@@ -49,9 +49,7 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <span *ngIf="chosenTransaction">
-      <button (click)="redirectToCustomer()" mat-stroked-button class="customer-button">Vis kundedetaljer</button>
-    </span>
+    <button [disabled]="!chosenTransaction" (click)="redirectToCustomer()" mat-stroked-button class="customer-button">Vis kundedetaljer</button>
   </div>
 
   <div>
