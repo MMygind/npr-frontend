@@ -13,22 +13,15 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTransactions(page: number, size: number): Observable<TransactionData> {
-    let params = new HttpParams();
-
-    params = params.append('page', String(page));
-    params = params.append('limit,', String(size));
-
-    return this.http.get<TransactionData>(this.transactionUrl, {params});
-  }
-
-  getFilteredTransactions(page: number, size: number, searchValue: string, startDate: string, endDate: string, washType: string, location: string, customerType: string): Observable<TransactionData>
+  getFilteredTransactions(page: number, size: number, searchValue: string | null, startDate: string, endDate: string, washType: string, location: string, customerType: string): Observable<TransactionData>
   {
     let params = new HttpParams();
 
     params = params.append('page', String(page));
     params = params.append('limit', String(size));
-    params = params.append('queryValue', searchValue);
+    if (searchValue) {
+      params = params.append('queryValue', searchValue);
+    }
     params = params.append('startDate', startDate);
     params = params.append('endDate', endDate);
     params = params.append('washType', washType);
