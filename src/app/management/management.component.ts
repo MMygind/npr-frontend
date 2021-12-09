@@ -31,21 +31,21 @@ export class ManagementComponent implements OnInit {
 
   getCompanyLocations() {
     this.locationService.getCompanyLocations()
-      .subscribe((locations) => this.locations = locations);
+      .subscribe((locations) => this.locations = locations ?? []);
   }
 
   getLocationWashTypes() {
     if (this.selectedLocation?.id) {
       this.washTypeService.getLocationWashTypes(this.selectedLocation.id)
-        .subscribe((washTypes) => this.washTypes = washTypes);
+        .subscribe((washTypes) => this.washTypes = washTypes ?? []);
     }
   }
 
   getSelectedLocation(item: LocationModel) {
     this.selectedLocation = item;
-    this.getLocationWashTypes();
     this.showingWashTypeForm = false;
     this.showingLocationForm = true;
+    this.getLocationWashTypes();
   }
 
   getSelectedWashType(item: WashType) {
@@ -175,6 +175,7 @@ export class ManagementComponent implements OnInit {
       .subscribe(createdLocation => {
         this.locations.push(createdLocation)
         this.getSelectedLocation(createdLocation);
+        this.selectedWashType = undefined;
         this.actionInProgress = false;
       }, error => {
         this.dialog.open(ErrorAlertComponent,
