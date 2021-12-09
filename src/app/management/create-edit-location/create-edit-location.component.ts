@@ -33,6 +33,7 @@ export class CreateEditLocationComponent implements OnInit, OnChanges {
       phoneNumber: '',
       creationDate: new Date(),
       email: '',
+      locations: [],
     }
   }
 
@@ -71,7 +72,7 @@ export class CreateEditLocationComponent implements OnInit, OnChanges {
     }
     if (this.location) {
       locationToReturn.id = this.location.id;
-      locationToReturn.company = this.location.company;
+      locationToReturn.company = undefined;
       locationToReturn.washTypes = this.location.washTypes;
       locationToReturn.longitude = this.location.longitude;
       locationToReturn.latitude = this.location.latitude;

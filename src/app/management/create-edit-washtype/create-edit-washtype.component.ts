@@ -4,6 +4,7 @@ import {Company} from "../../shared/models/company.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationAlertComponent} from "../confirmation-alert/confirmation-alert.component";
 import {FormBuilder, Validators} from "@angular/forms";
+import {LocationModel} from "../../shared/models/location.model";
 
 @Component({
   selector: 'app-create-edit-washtype',
@@ -13,26 +14,17 @@ import {FormBuilder, Validators} from "@angular/forms";
 export class CreateEditWashtypeComponent implements OnInit, OnChanges {
 
   @Input() washType?: WashType;
+  @Input() location?: LocationModel;
   @Input() parentActionInProgress = false;
   @Output() washTypeEvent = new EventEmitter<WashType>();
   actionInProgress = false;
-  defaultCompany: Company;
   washTypeForm = this.fb.group({
     name: [null, Validators.required],
     price: [null, [Validators.required, Validators.min(1)]],
   });
 
   constructor(private dialog: MatDialog,
-              private fb: FormBuilder) {
-    // to be removed later!
-    this.defaultCompany = {
-      id: 1,
-      name: '',
-      phoneNumber: '',
-      creationDate: new Date(),
-      email: '',
-    }
-  }
+              private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.updateForm();
@@ -56,13 +48,13 @@ export class CreateEditWashtypeComponent implements OnInit, OnChanges {
   saveWashType() {
     this.actionInProgress = true;
     const washTypeToReturn: WashType = {
-      company: this.defaultCompany,
+      location: this.location,
       name: this.washTypeForm.value.name,
       price: this.washTypeForm.value.price,
     }
     if (this.washType) {
       washTypeToReturn.id = this.washType.id;
-      washTypeToReturn.company = undefined;
+      washTypeToReturn.location = undefined;
     }
     const dialogMessage = (this.washType)
       ? `Opdatere ${washTypeToReturn.name}?` : `Oprette ${washTypeToReturn.name}?`;
