@@ -28,7 +28,7 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-stroked-button class="transaction-button">Vis transaktioner</button>
+    <button mat-stroked-button (click)="redirectToTransactions()" class="transaction-button">Vis transaktioner</button>
     <button mat-stroked-button (click)="changeCustomerStatus()" class="status-button">Skift status</button>
   </div>
 

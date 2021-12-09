@@ -31,7 +31,7 @@ export class CustomerComponent implements OnInit {
   searchValue: string | null = null;
   pageEvent: PageEvent | undefined;
 
-  constructor(private customerService: CustomerService, public datepipe: DatePipe, private route: ActivatedRoute) {
+  constructor(private customerService: CustomerService, public datepipe: DatePipe, private route: ActivatedRoute, private router: Router) {
     if(route.snapshot.params)
     {
       this.route.queryParams.subscribe(params => {
@@ -78,5 +78,9 @@ export class CustomerComponent implements OnInit {
 
     page = page +1;
     this.customerService.getAllFilteredCustomers(page, size, this.searchValue, this.selectedStatus, this.selectedType ).pipe(map((customerData: CustomerData) => this.dataSource = customerData)).subscribe();
+  }
+
+  public redirectToTransactions() {
+    this.router.navigateByUrl('/transactions?searchString=' + this.chosenCustomer?.email)
   }
 }
