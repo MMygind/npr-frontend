@@ -6,7 +6,6 @@ import {WashType} from "../shared/models/washtype.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorAlertComponent} from "./error-alert/error-alert.component";
 import {ConfirmationAlertComponent} from "./confirmation-alert/confirmation-alert.component";
-
 @Component({
   selector: 'app-management',
   templateUrl: './management.component.html',
@@ -15,12 +14,9 @@ import {ConfirmationAlertComponent} from "./confirmation-alert/confirmation-aler
 export class ManagementComponent implements OnInit {
 
   locations: LocationModel[] = [];
-  locationWashTypes: WashType[] = [];
   washTypes: WashType[] = [];
   selectedLocation: LocationModel | undefined;
   selectedWashType: WashType | undefined;
-  selectedLocationWashTypeIndex = -1;
-  selectedWashTypeIndex = -1;
   actionInProgress = false;
   showingLocationForm = false;
   showingWashTypeForm = false;
@@ -30,73 +26,32 @@ export class ManagementComponent implements OnInit {
               private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getAllLocations();
-    this.getAllWashTypes();
+    this.getCompanyLocations();
   }
 
-  getAllLocations() {
-    this.locationService.getAllLocations().subscribe(locations => this.locations = locations);
+  getCompanyLocations() {
+    this.locationService.getCompanyLocations()
+      .subscribe((locations) => this.locations = locations ?? []);
   }
 
-  getAllWashTypes() {
-    this.washTypeService.getAllWashTypes().subscribe(washTypes => this.washTypes = washTypes);
+  getLocationWashTypes() {
+    if (this.selectedLocation?.id) {
+      this.washTypeService.getLocationWashTypes(this.selectedLocation.id)
+        .subscribe((washTypes) => this.washTypes = washTypes ?? []);
+    }
   }
 
   getSelectedLocation(item: LocationModel) {
     this.selectedLocation = item;
-    this.locationWashTypes = item.washTypes;
     this.showingWashTypeForm = false;
     this.showingLocationForm = true;
+    this.getLocationWashTypes();
   }
 
-  getSelectedLocationWashType(item: WashType, index: number) {
+  getSelectedWashType(item: WashType) {
     this.selectedWashType = item;
-    this.selectedLocationWashTypeIndex = index;
-    this.selectedWashTypeIndex = -1;
     this.showingLocationForm = false;
     this.showingWashTypeForm = true;
-  }
-
-  getSelectedWashType(item: WashType, index: number) {
-    this.selectedWashType = item;
-    this.selectedWashTypeIndex = index;
-    this.selectedLocationWashTypeIndex = -1;
-    this.showingLocationForm = false;
-    this.showingWashTypeForm = true;
-  }
-
-  addWashTypeToLocation() {
-    if (this.selectedWashType && this.selectedLocation) {
-      const copiedLocation = this.copyLocation(this.selectedLocation);
-      copiedLocation.washTypes.push(this.selectedWashType);
-      this.updateLocation(copiedLocation);
-    }
-  }
-
-  removeWashTypeFromLocation() {
-    if (this.selectedWashType && this.selectedLocation) {
-      const copiedLocation = this.copyLocation(this.selectedLocation);
-      copiedLocation.washTypes = copiedLocation.washTypes
-        .filter(washType => washType.id !== this.selectedWashType?.id);
-      this.updateLocation(copiedLocation);
-    }
-  }
-
-  copyLocation(location: LocationModel): LocationModel {
-    const alteredWashTypes: WashType[] = [];
-    location.washTypes.forEach(washType => alteredWashTypes.push(washType));
-    const copy: LocationModel = {
-      id: location.id,
-      name: location.name,
-      washTypes: alteredWashTypes,
-      company: location.company,
-      address: location.address,
-      city: location.city,
-      postalCode: location.postalCode,
-      latitude: location.latitude,
-      longitude: location.longitude
-    }
-    return copy;
   }
 
   newLocation() {
@@ -122,8 +77,9 @@ export class ManagementComponent implements OnInit {
         this.locationService.deleteLocation(this.selectedLocation.id).subscribe(success => {
           if (success) {
             this.locations = this.locations.filter(location => location.id !== this.selectedLocation?.id);
-            this.locationWashTypes = [];
+            this.washTypes = [];
             this.selectedLocation = undefined;
+            this.showingLocationForm = false;
           } else {
             this.dialog.open(ErrorAlertComponent,
               { data: { message: 'Noget gik galt' },
@@ -141,8 +97,6 @@ export class ManagementComponent implements OnInit {
 
   newWashType() {
     this.selectedWashType = undefined;
-    this.selectedWashTypeIndex = -1;
-    this.selectedLocationWashTypeIndex = -1;
     this.showingLocationForm = false;
     this.showingWashTypeForm = true;
   }
@@ -164,16 +118,10 @@ export class ManagementComponent implements OnInit {
         this.washTypeService.deleteWashType(this.selectedWashType.id).subscribe(success => {
           if (success) {
             this.washTypes = this.washTypes.filter(washType => washType.id !== this.selectedWashType?.id);
-            this.locations.forEach(location => {
-              location.washTypes = location.washTypes
-                .filter(washType => washType.id !== this.selectedWashType?.id);
-            })
-            if (this.selectedLocation) {
-              this.locationWashTypes = this.selectedLocation.washTypes;
-            }
+            this.getLocationWashTypes();
             this.selectedWashType = undefined;
-            this.selectedLocationWashTypeIndex = -1;
-            this.selectedWashTypeIndex = -1;
+            this.showingWashTypeForm = false;
+            this.showingLocationForm = true;
           } else {
             this.dialog.open(ErrorAlertComponent,
               { data: { message: 'Noget gik galt' },
@@ -227,6 +175,7 @@ export class ManagementComponent implements OnInit {
       .subscribe(createdLocation => {
         this.locations.push(createdLocation)
         this.getSelectedLocation(createdLocation);
+        this.selectedWashType = undefined;
         this.actionInProgress = false;
       }, error => {
         this.dialog.open(ErrorAlertComponent,
@@ -242,15 +191,8 @@ export class ManagementComponent implements OnInit {
       .subscribe(updatedWashType => {
         const washTypesIndex = this.washTypes.findIndex(washType => washType.id === updatedWashType.id);
         this.washTypes[washTypesIndex] = updatedWashType;
-        this.locations.forEach(location => {
-          const locationWashTypesIndex = location.washTypes
-            .findIndex(washType => washType.id === updatedWashType.id);
-          location.washTypes[locationWashTypesIndex] = updatedWashType;
-        })
-        if (this.selectedLocation) {
-          this.locationWashTypes = this.selectedLocation.washTypes;
-        }
-        this.getSelectedWashType(updatedWashType, washTypesIndex);
+        this.getLocationWashTypes();
+        this.getSelectedWashType(updatedWashType);
         this.actionInProgress = false;
       }, error => {
         this.dialog.open(ErrorAlertComponent,
@@ -265,7 +207,8 @@ export class ManagementComponent implements OnInit {
     this.washTypeService.createWashType(washType)
       .subscribe(createdWashType => {
         this.washTypes.push(createdWashType);
-        this.getSelectedWashType(createdWashType, this.washTypes.length - 1);
+        this.getLocationWashTypes();
+        this.getSelectedWashType(createdWashType);
         this.actionInProgress = false;
       }, error => {
         this.dialog.open(ErrorAlertComponent,

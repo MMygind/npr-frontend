@@ -17,6 +17,10 @@ export class WashTypeService {
     return this.http.get<WashType[]>(this.locationUrl);
   }
 
+  getLocationWashTypes(locationID: number): Observable<WashType[]> {
+    return this.http.get<WashType[]>(this.locationUrl + `/byLocation/${locationID}`);
+  }
+
   getWashType(id: number): Observable<WashType> {
     return this.http.get<WashType>(this.locationUrl + `/${id}`);
   }
