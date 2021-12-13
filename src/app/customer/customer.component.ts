@@ -35,7 +35,7 @@ export class CustomerComponent implements OnInit {
   }
 
   private getAllCustomers(active: boolean | null, subscription: string | null): void {
-    this.customerService.getAllFilteredCustomers(active, subscription ).subscribe(customers => this.customerList = customers);
+    this.customerService.getAllFilteredCustomers(active, subscription).subscribe(customers => this.customerList = customers);
   }
 
   public getDateWithFormat(date: Date): string {

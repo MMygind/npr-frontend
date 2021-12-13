@@ -6,6 +6,8 @@ import {WashType} from "../shared/models/washtype.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorAlertComponent} from "./error-alert/error-alert.component";
 import {ConfirmationAlertComponent} from "./confirmation-alert/confirmation-alert.component";
+import { AuthenticationService } from '../shared/services/authentication.service';
+import { User } from '../shared/models/user';
 
 @Component({
   selector: 'app-management',
@@ -27,7 +29,9 @@ export class ManagementComponent implements OnInit {
 
   constructor(private locationService: LocationService,
               private washTypeService: WashTypeService,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private authenticationService: AuthenticationService) {
+              }
 
   ngOnInit(): void {
     this.getAllLocations();

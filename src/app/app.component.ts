@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import Role from './shared/helpers/role.enum';
 import { User } from './shared/models/user';
 import { AuthenticationService } from './shared/services/authentication.service';
 
@@ -9,13 +10,4 @@ import { AuthenticationService } from './shared/services/authentication.service'
 })
 export class AppComponent {
   title = 'npr-frontend';
-  user: User | null | undefined;
-
-  constructor(private authenticationService: AuthenticationService) {
-    this.authenticationService.user.subscribe(user => this.user = user);
-  }
-
-  logout() {
-    this.authenticationService.logout();
-  }
 }

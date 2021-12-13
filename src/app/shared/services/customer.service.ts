@@ -26,7 +26,7 @@ export class CustomerService {
       url = url + "&subscription=" + subscription;
     }
 
-    let list = this.http.get<Customer[]>(url);
+    let list = this.http.get<Customer[]>(url, { withCredentials: true });
 
     return list;
   }
