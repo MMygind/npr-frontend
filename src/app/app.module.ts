@@ -11,6 +11,7 @@ import { ErrorInterceptor } from './shared/helpers/error.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatCardModule } from '@angular/material/card';
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MatCardModule } from '@angular/material/card';
     AppRoutingModule,
     HttpClientModule,
     MatTabsModule,
-    FormsModule
+    FormsModule,
+    NoopAnimationsModule
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthenticationService] },
