@@ -3,7 +3,7 @@ import {WashType} from "./washtype.model";
 
 export interface LocationModel {
   id?: number;
-  company: Company;
+  company?: Company;
   name: string;
   address: string;
   postalCode: number;

@@ -24,65 +24,72 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="search">
-      <input matInput placeholder="Search">
+      <input matInput (input)="updateList()" [(ngModel)]="searchValue" placeholder="Search">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-stroked-button class="transaction-button">Vis transaktioner</button>
+    <button mat-stroked-button (click)="redirectToTransactions()" class="transaction-button">Vis transaktioner</button>
     <button mat-stroked-button (click)="changeCustomerStatus()" class="status-button">Skift status</button>
   </div>
 
-  <mat-table [dataSource]="customerList">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Navn</th>
-      <td mat-cell *matCellDef="let customer"> {{customer.name}} </td>
-    </ng-container>
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let customer"> {{customer.email}} </td>
-    </ng-container>
-    <ng-container matColumnDef="phonenumber">
-      <th mat-header-cell *matHeaderCellDef>Telefonnr.</th>
-      <td mat-cell *matCellDef="let customer"> {{customer.phoneNumber}} </td>
-    </ng-container>
-    <ng-container matColumnDef="creationdate">
-      <th mat-header-cell *matHeaderCellDef>Oprettelsesdato</th>
-      <td mat-cell *matCellDef="let customer"> {{getDateWithFormat(customer.creationDate)}}  </td>
-    </ng-container>
-    <ng-container matColumnDef="subscription">
-      <th mat-header-cell *matHeaderCellDef>Kundetype</th>
-      <td mat-cell *matCellDef="let customer"> {{customer.subscription.name}} </td>
-    </ng-container>
-    <ng-container matColumnDef="licenseplates">
-      <th mat-header-cell *matHeaderCellDef>Nummerplade</th>
-      <td mat-cell *matCellDef="let customer">
-        <div *ngIf="customer.licensePlates.length > 1">
-          <mat-expansion-panel class="expansion-licencePlates">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{customer.licensePlates[0].licensePlate}}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div *ngFor="let licensePlate of customer.licensePlates">
-              <div *ngIf="licensePlate != customer.licensePlates[0]">
-                {{licensePlate.licensePlate}}
+  <div *ngIf="dataSource">
+    <mat-table [dataSource]="dataSource.items">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Navn</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.email}} </td>
+      </ng-container>
+      <ng-container matColumnDef="phonenumber">
+        <th mat-header-cell *matHeaderCellDef>Telefonnr.</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.phoneNumber}} </td>
+      </ng-container>
+      <ng-container matColumnDef="creationdate">
+        <th mat-header-cell *matHeaderCellDef>Oprettelsesdato</th>
+        <td mat-cell *matCellDef="let customer"> {{getDateWithFormat(customer.creationDate)}}  </td>
+      </ng-container>
+      <ng-container matColumnDef="subscription">
+        <th mat-header-cell *matHeaderCellDef>Kundetype</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.subscription.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="licenseplates">
+        <th mat-header-cell *matHeaderCellDef>Nummerplade</th>
+        <td mat-cell *matCellDef="let customer">
+          <div *ngIf="customer.licensePlates.length > 1">
+            <mat-expansion-panel class="expansion-licencePlates">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{customer.licensePlates[0].licensePlate}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div *ngFor="let licensePlate of customer.licensePlates">
+                <div *ngIf="licensePlate != customer.licensePlates[0]">
+                  {{licensePlate.licensePlate}}
+                </div>
               </div>
-            </div>
-          </mat-expansion-panel>
-        </div>
-        <div *ngIf="customer.licensePlates.length < 2">
-          <div *ngFor="let licensePlate of customer.licensePlates">
-            {{licensePlate.licensePlate}}
+            </mat-expansion-panel>
           </div>
-        </div>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="active">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let customer"> {{customer.active === true ? 'Aktiv' : 'Deaktiveret'}} </td>
-    </ng-container>
+          <div *ngIf="customer.licensePlates.length < 2">
+            <div *ngFor="let licensePlate of customer.licensePlates">
+              {{licensePlate.licensePlate}}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.active === true ? 'Aktiv' : 'Deaktiveret'}} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr >
-    <tr mat-row *matRowDef="let customer; columns: displayedColumns;" (click)="setChosenCustomer(customer)" class="table-row" tabindex="1"></tr>
-  </mat-table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr >
+      <tr mat-row *matRowDef="let customer; columns: displayedColumns;" (click)="setChosenCustomer(customer)" class="table-row" tabindex="1"></tr>
+    </mat-table>
+    <mat-paginator [length]="dataSource.meta.totalItems"
+                  [pageSize]="dataSource.meta.itemsPerPage"
+                  showFirstLastButtons
+                  (page)="pageEvent = $event; onPaginateChange($event)">
+    </mat-paginator>
+  </div>
 </div>

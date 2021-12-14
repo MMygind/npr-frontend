@@ -4,7 +4,7 @@ import { AuthGuard } from '../shared/helpers/auth.guard';
 import Role from '../shared/helpers/role.enum';
 import { TransactionComponent } from './transaction.component';
 
-const routes: Routes = [{ path: '', component: TransactionComponent, canActivate: [AuthGuard], data: { roles: [Role.User] } }];
+const routes: Routes = [{ path: '', component: TransactionComponent }, { path: '/:searchString', component: TransactionComponent}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

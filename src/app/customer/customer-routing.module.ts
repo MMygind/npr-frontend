@@ -8,8 +8,18 @@ const routes: Routes = [
   {
     path: '',
     component: CustomerComponent,
-    //canActivate: [AuthGuard] 
-  }];
+    canActivate: [AuthGuard] 
+  },
+  { 
+    path: '', 
+    component: CustomerComponent 
+  }, 
+  { 
+    path: '/:searchString', 
+    component: CustomerComponent
+  }
+
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
