@@ -28,7 +28,7 @@ export class CustomerService {
       params = params.append('subscription', subscription);
     }
 
-    return this.http.get<CustomerData>(this.customerUrl, {params});
+    return this.http.get<CustomerData>(this.customerUrl, {params, withCredentials: true});
   }
 
   updateCustomer(customer: Customer): Observable<Customer> {

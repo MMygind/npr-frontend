@@ -17,6 +17,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatNativeDateModule,
     MatDatepickerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class TransactionModule { }
