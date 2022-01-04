@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
 })
 export class CustomerService {
 
-  private customerUrl = environment.backendUrl + 'customers';
+  private customerUrl = environment.backendUrl + 'web/customers';
 
   constructor(private http: HttpClient) { }
 
@@ -28,10 +28,10 @@ export class CustomerService {
       params = params.append('subscription', subscription);
     }
 
-    return this.http.get<CustomerData>(this.customerUrl, {params, withCredentials: true});
+    return this.http.get<CustomerData>(this.customerUrl, { params, withCredentials: true});
   }
 
   updateCustomer(customer: Customer): Observable<Customer> {
-    return this.http.put<Customer>(this.customerUrl, customer);
+    return this.http.put<Customer>(this.customerUrl, customer, { withCredentials: true});
   }
 }

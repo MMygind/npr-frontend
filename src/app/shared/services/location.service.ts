@@ -9,33 +9,28 @@ import {LocationModel} from "../models/location.model";
 })
 export class LocationService {
 
-  private locationUrl = environment.backendUrl + 'locations';
+  private locationUrl = environment.backendUrl + 'web/locations';
 
   constructor(private http: HttpClient) {}
 
-  // maybe delete
   getAllLocations(): Observable<LocationModel[]> {
     return this.http.get<LocationModel[]>(this.locationUrl);
   }
 
   getCompanyLocations(): Observable<LocationModel[]> {
-    return this.http.get<LocationModel[]>(this.locationUrl + '/thisCompany');
-  }
-
-  getLocation(id: number): Observable<LocationModel> {
-    return this.http.get<LocationModel>(this.locationUrl + `/${id}`);
+    return this.http.get<LocationModel[]>(this.locationUrl + '/thisCompany', { withCredentials: true });
   }
 
   createLocation(location: LocationModel): Observable<LocationModel> {
-    return this.http.post<LocationModel>(this.locationUrl, location);
+    return this.http.post<LocationModel>(this.locationUrl, location, { withCredentials: true });
   }
 
   updateLocation(location: LocationModel): Observable<LocationModel> {
-    return this.http.put<LocationModel>(this.locationUrl + `/${location.id}`, location);
+    return this.http.put<LocationModel>(this.locationUrl + `/${location.id}`, location, { withCredentials: true });
   }
 
   deleteLocation(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(this.locationUrl + `/${id}`);
+    return this.http.delete<boolean>(this.locationUrl + `/${id}`, { withCredentials: true });
   }
 
 
