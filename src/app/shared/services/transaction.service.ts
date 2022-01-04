@@ -9,7 +9,7 @@ import {TransactionData} from "../models/transaction.model";
 })
 export class TransactionService {
 
-  private transactionUrl = environment.backendUrl + 'transactions';
+  private transactionUrl = environment.backendUrl + 'web/transactions';
 
   constructor(private http: HttpClient) {}
 
@@ -28,6 +28,6 @@ export class TransactionService {
     params = params.append('location', location);
     params = params.append('customerType', customerType)
 
-    return this.http.get<TransactionData>(this.transactionUrl, {params});
+    return this.http.get<TransactionData>(this.transactionUrl, {params, withCredentials: true });
   }
 }

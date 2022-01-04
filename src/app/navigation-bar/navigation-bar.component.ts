@@ -26,7 +26,6 @@ export class NavigationBarComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService
   ) {
-    //this.user = this.authenticationService.userValue;
     this.authenticationService.user.subscribe(user => this.user = user);
   }
 

@@ -50,7 +50,7 @@ export class TransactionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterTransactions();
-    this.getAllLocations();
+    this.getCompanyLocations();
     this.getAllWashTypes();
   }
 
@@ -58,8 +58,8 @@ export class TransactionListComponent implements OnInit {
     this.washTypeService.getAllWashTypes().subscribe(washTypes => this.washTypes = washTypes);
   }
 
-  private getAllLocations() {
-    this.locationService.getAllLocations().subscribe(locations => this.locations = locations);
+  private getCompanyLocations() {
+    this.locationService.getCompanyLocations().subscribe(locations => this.locations = locations);
   }
 
   public setChosenTransaction(transaction: Transaction) {
