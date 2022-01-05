@@ -56,12 +56,12 @@
   <mat-table [dataSource]="dataSource.items" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="license plate">
       <mat-header-cell *matHeaderCellDef> Nummerplade </mat-header-cell>
-      <mat-cell *matCellDef="let transaction"> {{transaction.licensePlate.licensePlate}} </mat-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction?.licensePlate?.licensePlate}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="email">
       <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-      <mat-cell *matCellDef="let transaction"> {{transaction.licensePlate.customer.email}} </mat-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.customer.email}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="wash type">
@@ -81,7 +81,7 @@
 
     <ng-container matColumnDef="customer type">
       <mat-header-cell *matHeaderCellDef> Kundetype </mat-header-cell>
-      <mat-cell *matCellDef="let transaction"> {{transaction.licensePlate.customer.subscription.name}} </mat-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.customer.subscription?.name}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="price">
