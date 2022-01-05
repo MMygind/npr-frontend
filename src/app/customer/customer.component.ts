@@ -43,9 +43,10 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateList();
+    console.log(this.dataSource?.items)
   }
 
-  public updateList(): void {
+   public updateList() {
     this.customerService.getAllFilteredCustomers(1, 10, this.searchValue, this.selectedStatus, this.selectedType ).pipe(map((customerData: CustomerData) => this.dataSource = customerData)).subscribe();
   }
 
