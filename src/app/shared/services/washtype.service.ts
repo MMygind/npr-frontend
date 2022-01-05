@@ -21,10 +21,6 @@ export class WashTypeService {
     return this.http.get<WashType[]>(this.locationUrl + `/byLocation/${locationID}`, { withCredentials: true });
   }
 
-  getWashType(id: number): Observable<WashType> {
-    return this.http.get<WashType>(this.locationUrl + `/${id}`, { withCredentials: true });
-  }
-
   createWashType(location: WashType): Observable<WashType> {
     return this.http.post<WashType>(this.locationUrl, location, { withCredentials: true });
   }

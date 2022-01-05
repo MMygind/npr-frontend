@@ -13,10 +13,6 @@ export class LocationService {
 
   constructor(private http: HttpClient) {}
 
-  getAllLocations(): Observable<LocationModel[]> {
-    return this.http.get<LocationModel[]>(this.locationUrl);
-  }
-
   getCompanyLocations(): Observable<LocationModel[]> {
     return this.http.get<LocationModel[]>(this.locationUrl + '/thisCompany', { withCredentials: true });
   }

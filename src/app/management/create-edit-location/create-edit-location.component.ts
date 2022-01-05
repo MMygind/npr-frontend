@@ -16,7 +16,6 @@ export class CreateEditLocationComponent implements OnInit, OnChanges {
   @Input() parentActionInProgress = false;
   @Output() locationEvent = new EventEmitter<LocationModel>();
   actionInProgress = false;
-  defaultCompany: Company;
   locationForm = this.fb.group({
     name: [null, Validators.required],
     address: [null, Validators.required],
@@ -25,17 +24,7 @@ export class CreateEditLocationComponent implements OnInit, OnChanges {
   })
 
   constructor(private dialog: MatDialog,
-              private fb: FormBuilder) {
-    // to be removed later!
-    this.defaultCompany = {
-      id: 1,
-      name: '',
-      phoneNumber: '',
-      creationDate: new Date(),
-      email: '',
-      locations: [],
-    }
-  }
+              private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.updateForm();
@@ -61,7 +50,6 @@ export class CreateEditLocationComponent implements OnInit, OnChanges {
   saveLocation() {
     this.actionInProgress = true;
     const locationToReturn: LocationModel = {
-      company: this.defaultCompany,
       name: this.locationForm.value.name,
       address: this.locationForm.value.address,
       postalCode: this.locationForm.value.postalCode,
@@ -72,7 +60,6 @@ export class CreateEditLocationComponent implements OnInit, OnChanges {
     }
     if (this.location) {
       locationToReturn.id = this.location.id;
-      locationToReturn.company = undefined;
       locationToReturn.washTypes = this.location.washTypes;
       locationToReturn.longitude = this.location.longitude;
       locationToReturn.latitude = this.location.latitude;
