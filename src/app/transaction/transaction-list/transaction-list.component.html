@@ -1,0 +1,104 @@
+<div *ngIf="dataSource">
+
+  <h1>Transaktioner</h1>
+
+
+  <div *ngIf="dataSource">
+    <mat-form-field appearance="fill" class="datepicker">
+      <mat-label>Vælg et datointerval</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate (dateInput)="filterTransactions()" (dateChange)="filterTransactions()" [(ngModel)]="startDate"  placeholder="Start date">
+        <input matEndDate (dateInput)="filterTransactions()" (dateChange)="filterTransactions()" [(ngModel)]="endDate"  placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="customertype-select">
+      <mat-label>Vaske Type</mat-label>
+      <mat-select (selectionChange)="filterTransactions()" [(ngModel)]="washType">
+        <mat-option [value]="''">Alle</mat-option>
+        <mat-option *ngFor="let washType of washTypes" [value]="washType.name.toLowerCase()">
+          {{washType.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="customertype-select">
+      <mat-label>Lokation</mat-label>
+      <mat-select (selectionChange)="filterTransactions()" [(ngModel)]="location">
+        <mat-option [value]="''">Alle</mat-option>
+        <mat-option *ngFor="let location of locations" [value]="location.name.toLowerCase()">
+          {{location.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="customertype-select">
+      <mat-label>Kundetype</mat-label>
+      <mat-select (selectionChange)="filterTransactions()" [(ngModel)]="customerType">
+        <mat-option [value]="''">Alle</mat-option>
+        <mat-option *ngFor="let customerType of customerTypeList" [value]="customerType.text.toLowerCase()">
+          {{customerType.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="search">
+      <input matInput type="text" [(ngModel)]="searchValue" (input)="filterTransactions()" placeholder="Søg på email eller nummerplade">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <button [disabled]="!chosenTransaction" (click)="redirectToCustomer()" mat-stroked-button class="customer-button">Vis kundedetaljer</button>
+  </div>
+
+  <div>
+  <mat-table [dataSource]="dataSource.items" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="license plate">
+      <mat-header-cell *matHeaderCellDef> Nummerplade </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction?.licensePlate?.licensePlate}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.customer.email}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="wash type">
+      <mat-header-cell *matHeaderCellDef> Vasketype </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.washType.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+      <mat-header-cell *matHeaderCellDef> Lokation </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.location.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef> Dato </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{getDateWithFormat(transaction.timestamp)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="customer type">
+      <mat-header-cell *matHeaderCellDef> Kundetype </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.customer.subscription?.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef> Pris </mat-header-cell>
+      <mat-cell *matCellDef="let transaction"> {{transaction.washType.price}} kr. </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="setChosenTransaction(row)" class="table-row" tabindex="1"></mat-row>
+  </mat-table>
+
+      <mat-paginator [length]="dataSource.meta.totalItems"
+                 [pageSize]="dataSource.meta.itemsPerPage"
+                 showFirstLastButtons
+                 (page)="pageEvent = $event; onPaginateChange($event)">
+      </mat-paginator>
+  </div>
+
+
+</div>

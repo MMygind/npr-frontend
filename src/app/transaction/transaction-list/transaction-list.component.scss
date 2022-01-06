@@ -1,0 +1,46 @@
+h1 {
+  padding-top: 20px;
+}
+
+.customertype-select {
+  padding-left: 2%;
+  width: 15%;
+}
+
+.search {
+  padding-left: 2%;
+  width: 15%;
+}
+
+.mat-table {
+  text-align: left;
+  vertical-align: middle;
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  overflow: auto;
+}
+
+.mat-header-cell {
+  width: 17%;
+  background: #eeeeee;
+  border-bottom-color: #9e9e9e;
+  font-size: 15px;
+}
+
+.table-row:focus {
+  background-color: #bdbdbd;
+  outline: none;
+}
+.table-row:focus mat-cell {
+  color: white;
+}
+
+.customer-button {
+  width: 10%;
+  margin-left: 5%;
+  height: 80%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+

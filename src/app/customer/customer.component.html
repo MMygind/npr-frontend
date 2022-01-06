@@ -1,27 +1,95 @@
-<h1>Customer works!</h1>
-<div>
-  <table
-    data-toggle="table"
-    class="table table-hover table-bordered">
-    <thead>
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">PhoneNumber</th>
-      <th scope="col">CreationDate</th>
-      <th scope="col">Subscription</th>
-      <th scope="col">Active</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let customer of customerList">
-      <td>{{customer.name}}</td>
-      <td>{{customer.email}}</td>
-      <td>{{customer.phoneNumber}}</td>
-      <td>{{customer.creationDate}}</td>
-      <td>{{customer.subscription.name}}</td>
-      <td>{{customer.active}}</td>
-    </tr>
-    </tbody>
-  </table>
+<div class="customer-list">
+
+  <h1>Kundeoversigt</h1>
+
+  <div class="filter-area">
+    <mat-form-field appearance="fill" class="status-select">
+      <mat-label>Status</mat-label>
+      <mat-select [(value)]="selectedStatus" (selectionChange)="updateList()">
+        <mat-option>Alle</mat-option>
+        <mat-option *ngFor="let status of statusList" [value]="status.value">
+          {{status.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="customertype-select">
+      <mat-label>Kundetype</mat-label>
+      <mat-select [(value)]="selectedType" (selectionChange)="updateList()">
+        <mat-option>Alle</mat-option>
+        <mat-option *ngFor="let customerType of customerTypeList" [value]="customerType.value">
+          {{customerType.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="search">
+      <input matInput (input)="updateList()" [(ngModel)]="searchValue" placeholder="Search">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-stroked-button (click)="redirectToTransactions()" class="transaction-button">Vis transaktioner</button>
+    <button mat-stroked-button (click)="changeCustomerStatus()" class="status-button">Skift status</button>
+  </div>
+
+  <div *ngIf="dataSource">
+    <mat-table [dataSource]="dataSource.items">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Navn</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.email}} </td>
+      </ng-container>
+      <ng-container matColumnDef="phonenumber">
+        <th mat-header-cell *matHeaderCellDef>Telefonnr.</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.phoneNumber}} </td>
+      </ng-container>
+      <ng-container matColumnDef="creationdate">
+        <th mat-header-cell *matHeaderCellDef>Oprettelsesdato</th>
+        <td mat-cell *matCellDef="let customer"> {{getDateWithFormat(customer.creationDate)}}  </td>
+      </ng-container>
+      <ng-container matColumnDef="subscription">
+        <th mat-header-cell *matHeaderCellDef>Kundetype</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.subscription?.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="licenseplates">
+        <th mat-header-cell *matHeaderCellDef>Nummerplade</th>
+        <td mat-cell *matCellDef="let customer">
+          <div *ngIf="customer.licensePlates.length > 1">
+            <mat-expansion-panel class="expansion-licencePlates">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{customer.licensePlates[0].licensePlate}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div *ngFor="let licensePlate of customer.licensePlates">
+                <div *ngIf="licensePlate != customer.licensePlates[0]">
+                  {{licensePlate.licensePlate}}
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </div>
+          <div *ngIf="customer.licensePlates.length < 2">
+            <div *ngFor="let licensePlate of customer.licensePlates">
+              {{licensePlate.licensePlate}}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let customer"> {{customer.active === true ? 'Aktiv' : 'Deaktiveret'}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr >
+      <tr mat-row *matRowDef="let customer; columns: displayedColumns;" (click)="setChosenCustomer(customer)" class="table-row" tabindex="1"></tr>
+    </mat-table>
+    <mat-paginator [length]="dataSource.meta.totalItems"
+                  [pageSize]="dataSource.meta.itemsPerPage"
+                  showFirstLastButtons
+                  (page)="pageEvent = $event; onPaginateChange($event)">
+    </mat-paginator>
+  </div>
 </div>

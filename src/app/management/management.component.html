@@ -1,0 +1,74 @@
+<div fxLayout="row" style="padding: 10px" fxLayoutGap="10px">
+
+  <div fxLayout="column" fxFlex="30">
+    <mat-card>
+      <mat-card-header class="list-header">
+        <h3>Lokationer</h3>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item [ngClass]="{'selected-item': selectedLocation?.id === location.id}"
+                         *ngFor="let location of locations; last as last"
+                         (click)="getSelectedLocation(location)">
+            {{location.name}}, {{location.city}}
+            <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions class="list-actions">
+        <button mat-stroked-button (click)="newLocation()">Ny</button>
+        <div fxFlex></div>
+        <button *ngIf="selectedLocation" mat-stroked-button (click)="deleteLocation()"
+                [disabled]="actionInProgress">Slet</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="30">
+    <mat-card>
+      <mat-card-header class="list-header">
+        <h3>Vasketyper</h3>
+      </mat-card-header>
+      <mat-card-content *ngIf="selectedLocation">
+        <mat-list>
+          <mat-list-item [ngClass]="{'selected-item': selectedWashType?.id === washType.id}"
+                         *ngFor="let washType of washTypes; last as last; let i = index"
+                         (click)="getSelectedWashType(washType)">
+            {{washType.name}}, {{washType.price}} kr.
+            <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-content *ngIf="!selectedLocation">
+        Vælg en lokation for at se dens vasketyper.
+      </mat-card-content>
+      <mat-card-actions class="list-actions">
+        <button *ngIf="selectedLocation" mat-stroked-button (click)="newWashType()">Ny</button>
+        <div fxFlex></div>
+        <button *ngIf="selectedWashType" mat-stroked-button (click)="deleteWashType()"
+                [disabled]="actionInProgress">Slet</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="40">
+    <mat-card *ngIf="!showingLocationForm && !showingWashTypeForm">
+      <mat-card-header class="list-header">
+        <h3>Detaljer</h3>
+      </mat-card-header>
+      <mat-card-content>
+        Klik på en lokation eller vasketype for at se dens detaljer,
+        eller på "Ny" for at oprette en ny lokation eller vasketype.
+      </mat-card-content>
+    </mat-card>
+    <app-create-edit-location *ngIf="showingLocationForm"
+                              [location]="selectedLocation" [parentActionInProgress]="actionInProgress"
+                              (locationEvent)="saveLocation($event)"></app-create-edit-location>
+    <app-create-edit-washtype *ngIf="showingWashTypeForm"
+                              [washType]="selectedWashType" [parentActionInProgress]="actionInProgress"
+                              [location]="selectedLocation"
+                              (washTypeEvent)="saveWashType($event)"></app-create-edit-washtype>
+  </div>
+
+</div>
+
