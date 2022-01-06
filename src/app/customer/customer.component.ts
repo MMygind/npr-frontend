@@ -43,7 +43,6 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateList();
-    console.log(this.dataSource?.items)
   }
 
    public updateList() {
