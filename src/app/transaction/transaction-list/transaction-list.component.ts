@@ -67,7 +67,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   public redirectToCustomer() {
-    this.router.navigateByUrl('/customers?searchString=' + this.chosenTransaction?.licensePlate?.customer.email)
+    this.router.navigateByUrl('/customers?searchString=' + this.chosenTransaction?.customer.email)
   }
 
 

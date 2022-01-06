@@ -1,6 +1,7 @@
 import {LicensePlate} from "./licenseplate.model";
 import {WashType} from "./washtype.model";
 import {LocationModel} from "./location.model";
+import {Customer} from "./customer.model";
 
 export interface Transaction {
   id?: number;
@@ -9,6 +10,7 @@ export interface Transaction {
   licensePlate?: LicensePlate;
   timestamp: Date;
   imageURL: string;
+  customer: Customer
 }
 
 export interface TransactionData {
